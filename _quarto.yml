@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "William Reddien"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - about.qmd
+      - text: "More"
+        menu:
+        
+        - blog.qmd
+
+format:
+  html:
+    theme: vapor
+    css: styles.css
+    toc: true
+
+editor: visual
+

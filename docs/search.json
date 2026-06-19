@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Eagles ‘The Adler’ And Money Across The World",
+    "section": "",
+    "text": "Warning: Removed 8 rows containing missing values (`geom_point()`).\n\n\n\n\n\n\n\n\n\nbased on an excerpt of 5000 eagle coins from the MANTIS database\nThroughout history, eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.\nTake for example two ancient eagles, and two modern eagles:\nThe eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Impreial coins it represented Roman virtues.\nAnd in the relatively modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico’s founding, while on American coins it represents liberty, and freedom.\nMy name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson’s Dean Rusk international experience grant, I am spending six weeks in Germany investigating the influence of ancient Greek and Roman coinage on the modern coinage of Europe, and the world. Last semester I wrote a paper on the eagle as it appears and changes on coins in the Davidson coin collection, and so this summer I’m continuing my investigation by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries). While I travel, I’m building up my own small dataset of all the eagle coins I see, which will be posted and analyzed on this website when I’m done with it.\n\n\n\n\n\n\n\n\n\nBasel Historical Museum’s ‘Treasure’ coins\n\n\n\n\n\n\n\nMe investigating some coins at the Colombischloessle in Freiburg\n\n\n\n\n\n\n\n\n\nThe Basel Museum’s very well organized display\n\n\n\n\n\n\n\nCoins, mostly German, at a local Freiburg antique shop"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\nI am Will Reddien, a current undergraduate student at Davidson College in the class of 2029. I’m studying Data science, organization, and analysis, along with Computer Science.\nI’m very self-motivated, and have created this website as part of a series of projects I have designed to increase my technological toolset and learn as much as I can about every facet of data science.\nI am a proficient SQL and R programmer, and am likewise skilled not only in base Python but the pandas library. I have experience with most fundamental tools in Excel, and am currently actively expanding that facet of my knowledge.\nPreviously, I’ve worked as an intern in two positions— as a lab intern at MIT I used R to visually create and analyze data drawn from cellular activity, and as a market research internship for a Texas law firm I evaluated potential clients as well as considered the most effective ways begin building relationships with them.\nAs a member of the “Cats’ Stats” club at Davidson, I’ve spent a substantial amount of time analyzing the data surrounding not only Davidson’s basketball team but our opponents, building scouting reports on strengths and weaknesses of teams and players, and prescribing strategies that lead our team to victory.\nWhen I’m not working, programming, or learning a new skill I spend most of my time running long distances, playing and designing video games, reading, writing, watching movies, and hanging out with my friends."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Extra Extra",
+    "section": "",
+    "text": "I’m not sure yet what to put on this page, but rest assured it will be something eventually."
+  },
+  {
+    "objectID": "index.html#where-ive-been-so-far",
+    "href": "index.html#where-ive-been-so-far",
+    "title": "Eagles ‘The Adler’ And Money Across The World",
+    "section": "Where I’ve Been So Far:",
+    "text": "Where I’ve Been So Far:\nFreiburg - The Colombischloessle Archaeological Museum, Local shops\nStrasbourg - The Archaeological Museum in the Palais Rohan, Local shops\nBasel - The Basel Historical Museum\nKarlsruhe - The Badisches Landesmuseum\nFrankfurt - The Historisches Museum Frankfurt\nBerlin - The Bode-Museum\nDresden - The Dresden Munzkabinett\nMunich - The Bavarian State Coin Collection"
+  }
+]

@@ -1,0 +1,7 @@
+"0","replaceCommas<-function(x){"
+"0","  x<-as.numeric(gsub(""\\,"", """", x))"
+"0","}"
+"0",""
+"0","Netflix_1000$Hours.Viewed <- replaceCommas(Netflix_1000$Hours.Viewed)"
+"0","Netflix_1000$Views <- replaceCommas(Netflix_1000$Views)"
+"0",""

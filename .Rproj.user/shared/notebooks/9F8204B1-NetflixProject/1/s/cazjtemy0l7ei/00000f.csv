@@ -1,0 +1,2 @@
+"0","Netflix_1000$Available.Globally. <- recode("
+"0","  as.character(Netflix_1000$Available.Globally.), ""Yes"" = 1, ""No"" = 0)"

@@ -1,0 +1,757 @@
+---
+title: "Eagles 'The Adler' And Money Across The World"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message = F, warning = F}
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+library(maps)
+library(pandoc)
+```
+
+```{r}
+#| echo: false
+ME5 <- read.csv("MantisEagles.csv")
+ME5 = ME5[20:50]
+
+```
+
+```{r}
+#| echo: false
+MantisEagles5000 = ME5[, c(22, 24, 5)]
+```
+
+```{r}
+#| echo: false
+x = MantisEagles5000[3]
+counts = data.frame(table(x))
+counts["lat"] = 0
+counts["lng"] = 0
+```
+
+```{r}
+#| echo: false
+counts[counts$Place.of.Production == 'Abydus', "lat"] <- 40.1953
+counts[counts$Place.of.Production == 'Abydus', "lng"] <- 26.4019
+
+counts[counts$Place.of.Production == 'Uncertain', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain Mint 6A', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain Mint 6A', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain Mint 7', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain Mint 7', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain||Asia', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain||Asia', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain||Asia Minor', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain||Asia Minor', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain||Gallia', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain||Gallia', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Uncertain||Uncertain value', "lat"] <- NA
+counts[counts$Place.of.Production == 'Uncertain||Uncertain value', "lng"] <- NA
+
+counts[counts$Place.of.Production == 'Acmoneia', "lat"] <- 38.6481
+counts[counts$Place.of.Production == 'Acmoneia', "lng"] <- 29.8978
+
+counts[counts$Place.of.Production == 'Adramyteum', "lat"] <- 39.5917
+counts[counts$Place.of.Production == 'Adramyteum', "lng"] <- 27.0244
+
+counts[counts$Place.of.Production == 'Aegae, Aeolis', "lat"] <- 38.8503
+counts[counts$Place.of.Production == 'Aegae, Aeolis', "lng"] <- 27.2117
+
+counts[counts$Place.of.Production == 'Aegeae', "lat"] <- 36.8378
+counts[counts$Place.of.Production == 'Aegeae', "lng"] <- 35.8344
+
+counts[counts$Place.of.Production == 'Aelia Capitolina', "lat"] <- 31.7683
+counts[counts$Place.of.Production == 'Aelia Capitolina', "lng"] <- 35.2137
+
+counts[counts$Place.of.Production == 'Aezanis', "lat"] <- 39.2017
+counts[counts$Place.of.Production == 'Aezanis', "lng"] <- 29.6100
+
+counts[counts$Place.of.Production == 'Agrigentum', "lat"] <- 37.3106
+counts[counts$Place.of.Production == 'Agrigentum', "lng"] <- 13.5748
+
+counts[counts$Place.of.Production == 'Alba Fucens', "lat"] <- 42.0801
+counts[counts$Place.of.Production == 'Alba Fucens', "lng"] <- 13.4115
+
+counts[counts$Place.of.Production == 'Alexandreia Troas', "lat"] <- 39.7512
+counts[counts$Place.of.Production == 'Alexandreia Troas', "lng"] <- 26.1606
+
+counts[counts$Place.of.Production == 'Alexandria', "lat"] <- 31.2001
+counts[counts$Place.of.Production == 'Alexandria', "lng"] <- 29.9187
+
+counts[counts$Place.of.Production == 'Amastris', "lat"] <- 41.7485
+counts[counts$Place.of.Production == 'Amastris', "lng"] <- 32.3862
+
+counts[counts$Place.of.Production == 'Amathus', "lat"] <- 34.7122
+counts[counts$Place.of.Production == 'Amathus', "lng"] <- 33.1419
+
+counts[counts$Place.of.Production == 'Amisus', "lat"] <- 41.3000
+counts[counts$Place.of.Production == 'Amisus', "lng"] <- 36.3300
+
+counts[counts$Place.of.Production == 'Amorium', "lat"] <- 39.0208
+counts[counts$Place.of.Production == 'Amorium', "lng"] <- 31.2917
+
+counts[counts$Place.of.Production == 'Amphipolis', "lat"] <- 40.8247
+counts[counts$Place.of.Production == 'Amphipolis', "lng"] <- 23.8475
+
+counts[counts$Place.of.Production == 'Anchialus', "lat"] <- 42.5562
+counts[counts$Place.of.Production == 'Anchialus', "lng"] <- 27.6393
+
+counts[counts$Place.of.Production == 'Ancyra', "lat"] <- 39.9334
+counts[counts$Place.of.Production == 'Ancyra', "lng"] <- 32.8597
+
+counts[counts$Place.of.Production == 'Antioch in Persis', "lat"] <- 28.8922
+counts[counts$Place.of.Production == 'Antioch in Persis', "lng"] <- 50.8351
+
+counts[counts$Place.of.Production == 'Antioch, Syria', "lat"] <- 36.2021
+counts[counts$Place.of.Production == 'Antioch, Syria', "lng"] <- 36.1604
+
+counts[counts$Place.of.Production == 'Antioch, Syria||Antioch', "lat"] <- 36.2021
+counts[counts$Place.of.Production == 'Antioch, Syria||Antioch', "lng"] <- 36.1604
+
+counts[counts$Place.of.Production == 'Antiocheia ad Cragum', "lat"] <- 36.1558
+counts[counts$Place.of.Production == 'Antiocheia ad Cragum', "lng"] <- 32.4172
+
+counts[counts$Place.of.Production == 'Antiocheia ad Maeandrum', "lat"] <- 37.8761
+counts[counts$Place.of.Production == 'Antiocheia ad Maeandrum', "lng"] <- 28.5392
+
+counts[counts$Place.of.Production == 'Apamea in Phrygia', "lat"] <- 38.0125
+counts[counts$Place.of.Production == 'Apamea in Phrygia', "lng"] <- 30.1656
+
+counts[counts$Place.of.Production == 'Aphrodisias, Caria||Plarasa', "lat"] <- 37.7083
+counts[counts$Place.of.Production == 'Aphrodisias, Caria||Plarasa', "lng"] <- 28.7236
+
+counts[counts$Place.of.Production == 'Aphytis', "lat"] <- 40.1000
+counts[counts$Place.of.Production == 'Aphytis', "lng"] <- 23.4356
+
+counts[counts$Place.of.Production == 'Aquileia', "lat"] <- 45.7697
+counts[counts$Place.of.Production == 'Aquileia', "lng"] <- 13.3648
+
+counts[counts$Place.of.Production == 'Aradus', "lat"] <- 34.8583
+counts[counts$Place.of.Production == 'Aradus', "lng"] <- 35.8544
+
+counts[counts$Place.of.Production == 'Arelate', "lat"] <- 43.6766
+counts[counts$Place.of.Production == 'Arelate', "lng"] <- 4.6278
+
+counts[counts$Place.of.Production == 'Argos', "lat"] <- 37.6333
+counts[counts$Place.of.Production == 'Argos', "lng"] <- 22.7167
+
+counts[counts$Place.of.Production == 'Ascalon', "lat"] <- 31.6688
+counts[counts$Place.of.Production == 'Ascalon', "lng"] <- 34.5553
+
+counts[counts$Place.of.Production == 'Aspendus', "lat"] <- 36.9392
+counts[counts$Place.of.Production == 'Aspendus', "lng"] <- 31.1719
+
+counts[counts$Place.of.Production == 'Athens', "lat"] <- 37.9838
+counts[counts$Place.of.Production == 'Athens', "lng"] <- 23.7275
+
+counts[counts$Place.of.Production == 'Augusta Traiana', "lat"] <- 42.4258
+counts[counts$Place.of.Production == 'Augusta Traiana', "lng"] <- 25.6345
+
+counts[counts$Place.of.Production == 'Babylon', "lat"] <- 32.5422
+counts[counts$Place.of.Production == 'Babylon', "lng"] <- 44.4211
+
+counts[counts$Place.of.Production == 'Babylon II', "lat"] <- 32.5422
+counts[counts$Place.of.Production == 'Babylon II', "lng"] <- 44.4211
+
+counts[counts$Place.of.Production == 'Berlin', "lat"] <- 52.5200
+counts[counts$Place.of.Production == 'Berlin', "lng"] <- 13.4050
+
+counts[counts$Place.of.Production == 'Beroea', "lat"] <- 40.5201
+counts[counts$Place.of.Production == 'Beroea', "lng"] <- 22.2039
+
+counts[counts$Place.of.Production == 'Berytus', "lat"] <- 33.8938
+counts[counts$Place.of.Production == 'Berytus', "lng"] <- 35.5018
+
+counts[counts$Place.of.Production == 'Bilbilis', "lat"] <- 41.3814
+counts[counts$Place.of.Production == 'Bilbilis', "lng"] <- -1.4981
+
+counts[counts$Place.of.Production == 'Bostra', "lat"] <- 32.5186
+counts[counts$Place.of.Production == 'Bostra', "lng"] <- 36.5147
+
+counts[counts$Place.of.Production == 'Byblus', "lat"] <- 34.1222
+counts[counts$Place.of.Production == 'Byblus', "lng"] <- 35.6517
+
+counts[counts$Place.of.Production == 'Byzantium', "lat"] <- 41.0082
+counts[counts$Place.of.Production == 'Byzantium', "lng"] <- 28.9784
+
+counts[counts$Place.of.Production == 'Caesaraugusta', "lat"] <- 41.6488
+counts[counts$Place.of.Production == 'Caesaraugusta', "lng"] <- -0.8891
+
+counts[counts$Place.of.Production == 'Caesarea in Cappadocia||Eusebeia', "lat"] <- 38.7312
+counts[counts$Place.of.Production == 'Caesarea in Cappadocia||Eusebeia', "lng"] <- 35.4784
+
+counts[counts$Place.of.Production == 'Caesareia Maritima', "lat"] <- 32.5036
+counts[counts$Place.of.Production == 'Caesareia Maritima', "lng"] <- 34.8931
+
+counts[counts$Place.of.Production == 'Caesareia Samariae', "lat"] <- 32.2778
+counts[counts$Place.of.Production == 'Caesareia Samariae', "lng"] <- 35.1897
+
+counts[counts$Place.of.Production == 'Carrhae', "lat"] <- 36.8625
+counts[counts$Place.of.Production == 'Carrhae', "lng"] <- 39.0253
+
+counts[counts$Place.of.Production == 'Cascantum', "lat"] <- 41.9702
+counts[counts$Place.of.Production == 'Cascantum', "lng"] <- -1.6568
+
+counts[counts$Place.of.Production == 'Ceramus', "lat"] <- 37.0347
+counts[counts$Place.of.Production == 'Ceramus', "lng"] <- 27.8939
+
+counts[counts$Place.of.Production == 'Chalcis', "lat"] <- 38.4611
+counts[counts$Place.of.Production == 'Chalcis', "lng"] <- 23.5956
+
+counts[counts$Place.of.Production == 'Chalcis sub Libano', "lat"] <- 33.7389
+counts[counts$Place.of.Production == 'Chalcis sub Libano', "lng"] <- 35.8828
+
+counts[counts$Place.of.Production == 'Charlotte (N.C.)', "lat"] <- 35.2271
+counts[counts$Place.of.Production == 'Charlotte (N.C.)', "lng"] <- -80.8431
+
+counts[counts$Place.of.Production == 'Chios', "lat"] <- 38.3675
+counts[counts$Place.of.Production == 'Chios', "lng"] <- 26.1358
+
+counts[counts$Place.of.Production == 'Citium', "lat"] <- 34.9219
+counts[counts$Place.of.Production == 'Citium', "lng"] <- 33.6233
+
+counts[counts$Place.of.Production == 'Clunia', "lat"] <- 41.7850
+counts[counts$Place.of.Production == 'Clunia', "lng"] <- -3.3764
+
+counts[counts$Place.of.Production == 'Clunia||Kolounioku', "lat"] <- 41.7850
+counts[counts$Place.of.Production == 'Clunia||Kolounioku', "lng"] <- -3.3764
+
+counts[counts$Place.of.Production == 'Cologne', "lat"] <- 50.9375
+counts[counts$Place.of.Production == 'Cologne', "lng"] <- 6.9603
+
+counts[counts$Place.of.Production == 'Colonia Patricia', "lat"] <- 37.8882
+counts[counts$Place.of.Production == 'Colonia Patricia', "lng"] <- -4.7794
+
+counts[counts$Place.of.Production == 'Colophon', "lat"] <- 38.1136
+counts[counts$Place.of.Production == 'Colophon', "lng"] <- 27.1422
+
+counts[counts$Place.of.Production == 'Colossae', "lat"] <- 37.7819
+counts[counts$Place.of.Production == 'Colossae', "lng"] <- 29.2611
+
+counts[counts$Place.of.Production == 'Colybrassus', "lat"] <- 36.6217
+counts[counts$Place.of.Production == 'Colybrassus', "lng"] <- 32.0089
+
+counts[counts$Place.of.Production == 'Constantinople', "lat"] <- 41.0082
+counts[counts$Place.of.Production == 'Constantinople', "lng"] <- 28.9784
+
+counts[counts$Place.of.Production == 'Corinth', "lat"] <- 37.9056
+counts[counts$Place.of.Production == 'Corinth', "lng"] <- 22.8797
+
+counts[counts$Place.of.Production == 'Cremna', "lat"] <- 37.3486
+counts[counts$Place.of.Production == 'Cremna', "lng"] <- 30.6908
+
+counts[counts$Place.of.Production == 'Croton', "lat"] <- 39.0808
+counts[counts$Place.of.Production == 'Croton', "lng"] <- 17.1276
+
+counts[counts$Place.of.Production == 'Cybera', "lat"] <- 37.1558
+counts[counts$Place.of.Production == 'Cybera', "lng"] <- 29.4939
+
+counts[counts$Place.of.Production == 'Cyme', "lat"] <- 38.7619
+counts[counts$Place.of.Production == 'Cyme', "lng"] <- 26.9386
+
+counts[counts$Place.of.Production == 'Cyrene', "lat"] <- 32.8222
+counts[counts$Place.of.Production == 'Cyrene', "lng"] <- 21.8556
+
+counts[counts$Place.of.Production == 'Cyzicus', "lat"] <- 40.3808
+counts[counts$Place.of.Production == 'Cyzicus', "lng"] <- 27.8872
+
+counts[counts$Place.of.Production == 'Damascus', "lat"] <- 33.5138
+counts[counts$Place.of.Production == 'Damascus', "lng"] <- 36.2765
+
+counts[counts$Place.of.Production == 'Danbury (Conn.)', "lat"] <- 41.3948
+counts[counts$Place.of.Production == 'Danbury (Conn.)', "lng"] <- -73.4540
+
+counts[counts$Place.of.Production == 'Deultum', "lat"] <- 42.4286
+counts[counts$Place.of.Production == 'Deultum', "lng"] <- 27.2794
+
+counts[counts$Place.of.Production == 'Deventer', "lat"] <- 52.2562
+counts[counts$Place.of.Production == 'Deventer', "lng"] <- 6.1605
+
+counts[counts$Place.of.Production == 'Dia', "lat"] <- 41.1333
+counts[counts$Place.of.Production == 'Dia', "lng"] <- 31.4167
+
+counts[counts$Place.of.Production == 'Diocaesareia Ciliciae', "lat"] <- 36.5794
+counts[counts$Place.of.Production == 'Diocaesareia Ciliciae', "lng"] <- 33.9242
+
+counts[counts$Place.of.Production == 'Docimeium', "lat"] <- 38.8358
+counts[counts$Place.of.Production == 'Docimeium', "lng"] <- 30.5408
+
+counts[counts$Place.of.Production == 'Dyrrhachium', "lat"] <- 41.3246
+counts[counts$Place.of.Production == 'Dyrrhachium', "lng"] <- 19.4560
+
+counts[counts$Place.of.Production == 'Ecbatana', "lat"] <- 34.8021
+counts[counts$Place.of.Production == 'Ecbatana', "lng"] <- 48.5146
+
+counts[counts$Place.of.Production == 'Edessa', "lat"] <- 37.1583
+counts[counts$Place.of.Production == 'Edessa', "lng"] <- 38.7917
+
+counts[counts$Place.of.Production == 'Elis', "lat"] <- 37.8914
+counts[counts$Place.of.Production == 'Elis', "lng"] <- 21.3744
+
+counts[counts$Place.of.Production == 'Emisa', "lat"] <- 34.7268
+counts[counts$Place.of.Production == 'Emisa', "lng"] <- 36.7167
+
+counts[counts$Place.of.Production == 'Ephesus', "lat"] <- 37.9409
+counts[counts$Place.of.Production == 'Ephesus', "lng"] <- 27.3414
+
+counts[counts$Place.of.Production == 'First Diodotid Mint', "lat"] <- 36.7581
+counts[counts$Place.of.Production == 'First Diodotid Mint', "lng"] <- 66.8989
+
+counts[counts$Place.of.Production == 'Gabala', "lat"] <- 35.3619
+counts[counts$Place.of.Production == 'Gabala', "lng"] <- 35.9261
+
+counts[counts$Place.of.Production == 'Gaza', "lat"] <- 31.5000
+counts[counts$Place.of.Production == 'Gaza', "lng"] <- 34.4667
+
+counts[counts$Place.of.Production == 'Gerrha', "lat"] <- 25.6836
+counts[counts$Place.of.Production == 'Gerrha', "lng"] <- 49.4936
+
+counts[counts$Place.of.Production == 'Gortyn', "lat"] <- 35.0622
+counts[counts$Place.of.Production == 'Gortyn', "lng"] <- 24.9469
+
+counts[counts$Place.of.Production == 'Graccurris', "lat"] <- 42.2153
+counts[counts$Place.of.Production == 'Graccurris', "lng"] <- -1.7961
+
+counts[counts$Place.of.Production == 'Halicarnassus', "lat"] <- 37.0379
+counts[counts$Place.of.Production == 'Halicarnassus', "lng"] <- 27.4241
+
+counts[counts$Place.of.Production == 'Hatra', "lat"] <- 35.5861
+counts[counts$Place.of.Production == 'Hatra', "lng"] <- 42.7169
+
+counts[counts$Place.of.Production == 'Heliopolis', "lat"] <- 33.9878
+counts[counts$Place.of.Production == 'Heliopolis', "lng"] <- 36.2036
+
+counts[counts$Place.of.Production == 'Heraclea', "lat"] <- 40.2319
+counts[counts$Place.of.Production == 'Heraclea', "lng"] <- 22.6450
+
+counts[counts$Place.of.Production == 'Hierapolis Bambyce', "lat"] <- 36.5208
+counts[counts$Place.of.Production == 'Hierapolis Bambyce', "lng"] <- 37.9628
+
+counts[counts$Place.of.Production == 'Hierapytna', "lat"] <- 35.0117
+counts[counts$Place.of.Production == 'Hierapytna', "lng"] <- 25.7411
+
+counts[counts$Place.of.Production == 'Hieropolis Castabala', "lat"] <- 37.1772
+counts[counts$Place.of.Production == 'Hieropolis Castabala', "lng"] <- 36.1914
+
+counts[counts$Place.of.Production == 'Hipponium', "lat"] <- 38.6756
+counts[counts$Place.of.Production == 'Hipponium', "lng"] <- 16.1014
+
+counts[counts$Place.of.Production == 'Hyria, Orra', "lat"] <- 40.4897
+counts[counts$Place.of.Production == 'Hyria, Orra', "lng"] <- 17.6381
+
+counts[counts$Place.of.Production == 'Icarus', "lat"] <- 29.4392
+counts[counts$Place.of.Production == 'Icarus', "lng"] <- 48.3308
+
+counts[counts$Place.of.Production == 'Ilium', "lat"] <- 39.9575
+counts[counts$Place.of.Production == 'Ilium', "lng"] <- 26.2389
+
+counts[counts$Place.of.Production == 'Issus', "lat"] <- 36.8458
+counts[counts$Place.of.Production == 'Issus', "lng"] <- 36.2008
+
+counts[counts$Place.of.Production == 'Istrus', "lat"] <- 44.5478
+counts[counts$Place.of.Production == 'Istrus', "lng"] <- 28.7753
+
+counts[counts$Place.of.Production == 'Italica', "lat"] <- 37.4431
+counts[counts$Place.of.Production == 'Italica', "lng"] <- -6.0442
+
+counts[counts$Place.of.Production == 'Jerusalem', "lat"] <- 31.7683
+counts[counts$Place.of.Production == 'Jerusalem', "lng"] <- 35.2137
+
+counts[counts$Place.of.Production == 'Joppa', "lat"] <- 32.0551
+counts[counts$Place.of.Production == 'Joppa', "lng"] <- 34.7511
+
+counts[counts$Place.of.Production == 'Lacedaemon', "lat"] <- 37.0744
+counts[counts$Place.of.Production == 'Lacedaemon', "lng"] <- 22.4247
+
+counts[counts$Place.of.Production == 'Laeaei', "lat"] <- 41.6500
+counts[counts$Place.of.Production == 'Laeaei', "lng"] <- 22.5000
+
+counts[counts$Place.of.Production == 'Lampsacus', "lat"] <- 40.3428
+counts[counts$Place.of.Production == 'Lampsacus', "lng"] <- 26.6853
+
+counts[counts$Place.of.Production == 'Laodicea ad Mare', "lat"] <- 35.5186
+counts[counts$Place.of.Production == 'Laodicea ad Mare', "lng"] <- 35.7894
+
+counts[counts$Place.of.Production == 'Laodiceia ad Lycum', "lat"] <- 37.8353
+counts[counts$Place.of.Production == 'Laodiceia ad Lycum', "lng"] <- 29.1064
+
+counts[counts$Place.of.Production == 'Le Locle', "lat"] <- 47.0519
+counts[counts$Place.of.Production == 'Le Locle', "lng"] <- 6.7492
+
+counts[counts$Place.of.Production == 'Locri Epizephyrii', "lat"] <- 38.2161
+counts[counts$Place.of.Production == 'Locri Epizephyrii', "lng"] <- 16.2425
+
+counts[counts$Place.of.Production == 'Londinium', "lat"] <- 51.5128
+counts[counts$Place.of.Production == 'Londinium', "lng"] <- -0.0917
+
+counts[counts$Place.of.Production == 'Lugdunum', "lat"] <- 45.7600
+counts[counts$Place.of.Production == 'Lugdunum', "lng"] <- 4.8400
+
+counts[counts$Place.of.Production == 'Lyrbe', "lat"] <- 36.8722
+counts[counts$Place.of.Production == 'Lyrbe', "lng"] <- 31.4744
+
+counts[counts$Place.of.Production == 'Lyttus', "lat"] <- 35.2047
+counts[counts$Place.of.Production == 'Lyttus', "lng"] <- 25.3686
+
+counts[counts$Place.of.Production == 'Maeonia', "lat"] <- 38.5667
+counts[counts$Place.of.Production == 'Maeonia', "lng"] <- 28.3167
+
+counts[counts$Place.of.Production == 'Magnesia ad Maeandrum', "lat"] <- 37.8525
+counts[counts$Place.of.Production == 'Magnesia ad Maeandrum', "lng"] <- 27.5256
+
+counts[counts$Place.of.Production == 'Magnesia ad Sipylum', "lat"] <- 38.6122
+counts[counts$Place.of.Production == 'Magnesia ad Sipylum', "lng"] <- 27.4258
+
+counts[counts$Place.of.Production == 'Mallus', "lat"] <- 36.7119
+counts[counts$Place.of.Production == 'Mallus', "lng"] <- 35.4194
+
+counts[counts$Place.of.Production == 'Mamertini', "lat"] <- 38.1936
+counts[counts$Place.of.Production == 'Mamertini', "lng"] <- 15.5542
+
+counts[counts$Place.of.Production == 'Marathus', "lat"] <- 34.8217
+counts[counts$Place.of.Production == 'Marathus', "lng"] <- 35.9103
+
+counts[counts$Place.of.Production == 'Marcianopolis', "lat"] <- 43.1972
+counts[counts$Place.of.Production == 'Marcianopolis', "lng"] <- 27.5858
+
+counts[counts$Place.of.Production == 'Massalia', "lat"] <- 43.2964
+counts[counts$Place.of.Production == 'Massalia', "lng"] <- 5.3698
+
+counts[counts$Place.of.Production == 'Mediolanum', "lat"] <- 45.4642
+counts[counts$Place.of.Production == 'Mediolanum', "lng"] <- 9.1900
+
+counts[counts$Place.of.Production == 'Messalinia', "lat"] <- 35.8000
+counts[counts$Place.of.Production == 'Messalinia', "lng"] <- 10.6000
+
+counts[counts$Place.of.Production == 'Messana', "lat"] <- 38.1936
+counts[counts$Place.of.Production == 'Messana', "lng"] <- 15.5542
+
+counts[counts$Place.of.Production == 'Metapontum', "lat"] <- 40.3847
+counts[counts$Place.of.Production == 'Metapontum', "lng"] <- 16.8272
+
+counts[counts$Place.of.Production == 'Mexico City', "lat"] <- 19.4326
+counts[counts$Place.of.Production == 'Mexico City', "lng"] <- -99.1332
+
+counts[counts$Place.of.Production == 'Miletus', "lat"] <- 37.5311
+counts[counts$Place.of.Production == 'Miletus', "lng"] <- 27.2789
+
+counts[counts$Place.of.Production == 'Mopsus', "lat"] <- 36.9581
+counts[counts$Place.of.Production == 'Mopsus', "lng"] <- 35.6386
+
+counts[counts$Place.of.Production == 'Motya', "lat"] <- 37.8686
+counts[counts$Place.of.Production == 'Motya', "lng"] <- 12.4678
+
+counts[counts$Place.of.Production == 'Muldenhütten', "lat"] <- 50.9031
+counts[counts$Place.of.Production == 'Muldenhütten', "lng"] <- 13.3794
+
+counts[counts$Place.of.Production == 'Munich', "lat"] <- 48.1351
+counts[counts$Place.of.Production == 'Munich', "lng"] <- 11.5820
+
+counts[counts$Place.of.Production == 'Mytilene', "lat"] <- 39.1056
+counts[counts$Place.of.Production == 'Mytilene', "lng"] <- 26.5542
+
+counts[counts$Place.of.Production == 'Neapolis', "lat"] <- 40.8518
+counts[counts$Place.of.Production == 'Neapolis', "lng"] <- 14.2681
+
+counts[counts$Place.of.Production == 'New York City (N.Y.)', "lat"] <- 40.7128
+counts[counts$Place.of.Production == 'New York City (N.Y.)', "lng"] <- -74.0060
+
+counts[counts$Place.of.Production == 'New York City (N.Y.)||New York City', "lat"] <- 40.7128
+counts[counts$Place.of.Production == 'New York City (N.Y.)||New York City', "lng"] <- -74.0060
+
+counts[counts$Place.of.Production == 'Newark (N.J.)||Newark', "lat"] <- 40.7357
+counts[counts$Place.of.Production == 'Newark (N.J.)||Newark', "lng"] <- -74.1724
+
+counts[counts$Place.of.Production == 'Nicomedia', "lat"] <- 40.7667
+counts[counts$Place.of.Production == 'Nicomedia', "lng"] <- 29.9167
+
+counts[counts$Place.of.Production == 'Nicopolis', "lat"] <- 39.0089
+counts[counts$Place.of.Production == 'Nicopolis', "lng"] <- 20.7336
+
+counts[counts$Place.of.Production == 'Nicopolis ad Istrum', "lat"] <- 43.2206
+counts[counts$Place.of.Production == 'Nicopolis ad Istrum', "lng"] <- 25.6114
+
+counts[counts$Place.of.Production == 'Nuremberg', "lat"] <- 49.4521
+counts[counts$Place.of.Production == 'Nuremberg', "lng"] <- 11.0767
+
+counts[counts$Place.of.Production == 'Olbia', "lat"] <- 46.6917
+counts[counts$Place.of.Production == 'Olbia', "lng"] <- 31.9014
+
+counts[counts$Place.of.Production == 'Olophyxus', "lat"] <- 40.3167
+counts[counts$Place.of.Production == 'Olophyxus', "lng"] <- 24.2333
+
+counts[counts$Place.of.Production == 'Olympia', "lat"] <- 37.6383
+counts[counts$Place.of.Production == 'Olympia', "lng"] <- 21.6300
+
+counts[counts$Place.of.Production == 'Orthosia', "lat"] <- 34.5611
+counts[counts$Place.of.Production == 'Orthosia', "lng"] <- 36.0094
+
+counts[counts$Place.of.Production == 'Ostia', "lat"] <- 41.7500
+counts[counts$Place.of.Production == 'Ostia', "lng"] <- 12.2833
+
+counts[counts$Place.of.Production == 'Paleopolis', "lat"] <- 37.8117
+counts[counts$Place.of.Production == 'Paleopolis', "lng"] <- 24.8197
+
+counts[counts$Place.of.Production == 'Panticapaeum', "lat"] <- 45.3500
+counts[counts$Place.of.Production == 'Panticapaeum', "lng"] <- 36.4667
+
+counts[counts$Place.of.Production == 'Paphos', "lat"] <- 34.7758
+counts[counts$Place.of.Production == 'Paphos', "lng"] <- 32.4217
+
+counts[counts$Place.of.Production == 'Paris', "lat"] <- 48.8566
+counts[counts$Place.of.Production == 'Paris', "lng"] <- 2.3522
+
+counts[counts$Place.of.Production == 'Parium', "lat"] <- 40.4172
+counts[counts$Place.of.Production == 'Parium', "lng"] <- 27.0653
+
+counts[counts$Place.of.Production == 'Pautalia', "lat"] <- 42.2838
+counts[counts$Place.of.Production == 'Pautalia', "lng"] <- 22.6906
+
+counts[counts$Place.of.Production == 'Pergamum', "lat"] <- 39.1322
+counts[counts$Place.of.Production == 'Pergamum', "lng"] <- 27.1842
+
+counts[counts$Place.of.Production == 'Perge', "lat"] <- 36.9614
+counts[counts$Place.of.Production == 'Perge', "lng"] <- 31.1039
+
+counts[counts$Place.of.Production == 'Perinthus', "lat"] <- 40.9711
+counts[counts$Place.of.Production == 'Perinthus', "lng"] <- 27.9547
+
+counts[counts$Place.of.Production == 'Petra', "lat"] <- 30.3285
+counts[counts$Place.of.Production == 'Petra', "lng"] <- 35.4444
+
+counts[counts$Place.of.Production == 'Pforzheim', "lat"] <- 48.8934
+counts[counts$Place.of.Production == 'Pforzheim', "lng"] <- 8.7049
+
+counts[counts$Place.of.Production == 'Pharnaceia', "lat"] <- 40.9167
+counts[counts$Place.of.Production == 'Pharnaceia', "lng"] <- 38.3833
+
+counts[counts$Place.of.Production == 'Phoenice', "lat"] <- 39.9144
+counts[counts$Place.of.Production == 'Phoenice', "lng"] <- 20.0600
+
+counts[counts$Place.of.Production == 'Providence (R.I.)||Providence', "lat"] <- 41.8240
+counts[counts$Place.of.Production == 'Providence (R.I.)||Providence', "lng"] <- -71.4128
+
+counts[counts$Place.of.Production == 'Ptolemais-Ake', "lat"] <- 32.9278
+counts[counts$Place.of.Production == 'Ptolemais-Ake', "lng"] <- 35.0817
+
+counts[counts$Place.of.Production == 'Rhagae', "lat"] <- 35.6101
+counts[counts$Place.of.Production == 'Rhagae', "lng"] <- 51.4358
+
+counts[counts$Place.of.Production == 'Rhesaena', "lat"] <- 36.8333
+counts[counts$Place.of.Production == 'Rhesaena', "lng"] <- 40.0667
+
+counts[counts$Place.of.Production == 'Rhodes', "lat"] <- 36.4341
+counts[counts$Place.of.Production == 'Rhodes', "lng"] <- 28.2175
+
+counts[counts$Place.of.Production == 'Rome', "lat"] <- 41.8902
+counts[counts$Place.of.Production == 'Rome', "lng"] <- 12.4922
+
+counts[counts$Place.of.Production == 'Rome||Antioch, Syria', "lat"] <- 41.8902
+counts[counts$Place.of.Production == 'Rome||Antioch, Syria', "lng"] <- 12.4922
+
+counts[counts$Place.of.Production == 'Rome||Mediolanum||Cyzicus||Siscia||Antioch', "lat"] <- 41.8902
+counts[counts$Place.of.Production == 'Rome||Mediolanum||Cyzicus||Siscia||Antioch', "lng"] <- 12.4922
+
+counts[counts$Place.of.Production == 'Sala', "lat"] <- 38.8353
+counts[counts$Place.of.Production == 'Sala', "lng"] <- 28.9839
+
+counts[counts$Place.of.Production == 'Salamis', "lat"] <- 35.1844
+counts[counts$Place.of.Production == 'Salamis', "lng"] <- 33.9022
+
+counts[counts$Place.of.Production == 'Samosata', "lat"] <- 37.5511
+counts[counts$Place.of.Production == 'Samosata', "lng"] <- 38.5036
+
+counts[counts$Place.of.Production == 'San Francisco (Calif.)', "lat"] <- 37.7749
+counts[counts$Place.of.Production == 'San Francisco (Calif.)', "lng"] <- -122.4194
+
+counts[counts$Place.of.Production == 'Sardis', "lat"] <- 38.4883
+counts[counts$Place.of.Production == 'Sardis', "lng"] <- 28.0403
+
+counts[counts$Place.of.Production == 'Sardis||Synnada', "lat"] <- 38.4883
+counts[counts$Place.of.Production == 'Sardis||Synnada', "lng"] <- 28.0403
+
+counts[counts$Place.of.Production == 'Scione', "lat"] <- 39.9439
+counts[counts$Place.of.Production == 'Scione', "lng"] <- 23.5358
+
+counts[counts$Place.of.Production == 'Seleuceia ad Calycadnum', "lat"] <- 36.3789
+counts[counts$Place.of.Production == 'Seleuceia ad Calycadnum', "lng"] <- 33.9261
+
+counts[counts$Place.of.Production == 'Serdica', "lat"] <- 42.6977
+counts[counts$Place.of.Production == 'Serdica', "lng"] <- 23.3219
+
+counts[counts$Place.of.Production == 'Side', "lat"] <- 36.7678
+counts[counts$Place.of.Production == 'Side', "lng"] <- 31.3906
+
+counts[counts$Place.of.Production == 'Sidon', "lat"] <- 33.5631
+counts[counts$Place.of.Production == 'Sidon', "lng"] <- 35.3689
+
+counts[counts$Place.of.Production == 'Sinope', "lat"] <- 42.0267
+counts[counts$Place.of.Production == 'Sinope', "lng"] <- 35.1511
+
+counts[counts$Place.of.Production == 'Siphnos', "lat"] <- 36.9667
+counts[counts$Place.of.Production == 'Siphnos', "lng"] <- 24.7167
+
+counts[counts$Place.of.Production == 'Siscia', "lat"] <- 45.4794
+counts[counts$Place.of.Production == 'Siscia', "lng"] <- 16.3756
+
+counts[counts$Place.of.Production == 'Smyrna', "lat"] <- 38.4237
+counts[counts$Place.of.Production == 'Smyrna', "lng"] <- 27.1428
+
+counts[counts$Place.of.Production == 'Soli', "lat"] <- 36.6853
+counts[counts$Place.of.Production == 'Soli', "lng"] <- 34.5408
+
+counts[counts$Place.of.Production == 'Stratoniceia', "lat"] <- 37.3117
+counts[counts$Place.of.Production == 'Stratoniceia', "lng"] <- 28.0642
+
+counts[counts$Place.of.Production == 'Stuttgart', "lat"] <- 48.7758
+counts[counts$Place.of.Production == 'Stuttgart', "lng"] <- 9.1829
+
+counts[counts$Place.of.Production == 'Susa', "lat"] <- 32.1892
+counts[counts$Place.of.Production == 'Susa', "lng"] <- 48.2578
+
+counts[counts$Place.of.Production == 'Synnada', "lat"] <- 38.6811
+counts[counts$Place.of.Production == 'Synnada', "lng"] <- 30.5489
+
+counts[counts$Place.of.Production == 'Syracuse', "lat"] <- 37.0755
+counts[counts$Place.of.Production == 'Syracuse', "lng"] <- 15.2866
+
+counts[counts$Place.of.Production == 'Taras', "lat"] <- 40.4714
+counts[counts$Place.of.Production == 'Taras', "lng"] <- 17.2431
+
+counts[counts$Place.of.Production == 'Tarsus', "lat"] <- 36.9164
+counts[counts$Place.of.Production == 'Tarsus', "lng"] <- 34.8953
+
+counts[counts$Place.of.Production == 'Taulara', "lat"] <- 41.4117
+counts[counts$Place.of.Production == 'Taulara', "lng"] <- 31.8106
+
+counts[counts$Place.of.Production == 'Temnus', "lat"] <- 38.6653
+counts[counts$Place.of.Production == 'Temnus', "lng"] <- 27.0675
+
+counts[counts$Place.of.Production == 'Teos', "lat"] <- 38.1706
+counts[counts$Place.of.Production == 'Teos', "lng"] <- 26.7906
+
+counts[counts$Place.of.Production == 'Termessus Minor', "lat"] <- 36.5794
+counts[counts$Place.of.Production == 'Termessus Minor', "lng"] <- 29.9869
+
+counts[counts$Place.of.Production == 'Thessalonica', "lat"] <- 40.6401
+counts[counts$Place.of.Production == 'Thessalonica', "lng"] <- 22.9444
+
+counts[counts$Place.of.Production == 'Thyateira', "lat"] <- 38.9242
+counts[counts$Place.of.Production == 'Thyateira', "lng"] <- 27.8406
+
+counts[counts$Place.of.Production == 'Ticinum', "lat"] <- 45.1850
+counts[counts$Place.of.Production == 'Ticinum', "lng"] <- 9.1556
+
+counts[counts$Place.of.Production == 'Tium', "lat"] <- 41.5658
+counts[counts$Place.of.Production == 'Tium', "lng"] <- 32.0381
+
+counts[counts$Place.of.Production == 'Tralles', "lat"] <- 37.8572
+counts[counts$Place.of.Production == 'Tralles', "lng"] <- 27.8436
+
+counts[counts$Place.of.Production == 'Trebizond', "lat"] <- 41.0027
+counts[counts$Place.of.Production == 'Trebizond', "lng"] <- 39.7168
+
+counts[counts$Place.of.Production == 'Trier', "lat"] <- 49.7567
+counts[counts$Place.of.Production == 'Trier', "lng"] <- 6.6414
+
+counts[counts$Place.of.Production == 'Tripolis', "lat"] <- 34.4367
+counts[counts$Place.of.Production == 'Tripolis', "lng"] <- 35.8497
+
+counts[counts$Place.of.Production == 'Tripolis ad Maeandrum', "lat"] <- 38.0536
+counts[counts$Place.of.Production == 'Tripolis ad Maeandrum', "lng"] <- 28.9411
+
+counts[counts$Place.of.Production == 'Tuder', "lat"] <- 42.7819
+counts[counts$Place.of.Production == 'Tuder', "lng"] <- 12.4086
+
+counts[counts$Place.of.Production == 'Tyre', "lat"] <- 33.2708
+counts[counts$Place.of.Production == 'Tyre', "lng"] <- 35.1964
+
+counts[counts$Place.of.Production == 'Venice', "lat"] <- 45.4408
+counts[counts$Place.of.Production == 'Venice', "lng"] <- 12.3155
+
+counts[counts$Place.of.Production == 'Venusia', "lat"] <- 40.9639
+counts[counts$Place.of.Production == 'Venusia', "lng"] <- 15.8153
+
+counts[counts$Place.of.Production == 'Viminacium', "lat"] <- 44.7364
+counts[counts$Place.of.Production == 'Viminacium', "lng"] <- 21.2306
+
+counts[counts$Place.of.Production == 'Zacatecas', "lat"] <- 22.7709
+counts[counts$Place.of.Production == 'Zacatecas', "lng"] <- -102.5832
+
+counts[counts$Place.of.Production == 'Zacynthus', "lat"] <- 37.7833
+counts[counts$Place.of.Production == 'Zacynthus', "lng"] <- 20.9000
+
+counts[counts$Place.of.Production == 'Zeugma', "lat"] <- 37.0578
+counts[counts$Place.of.Production == 'Zeugma', "lng"] <- 37.8658
+
+counts[counts$Place.of.Production == '', "lat"] <- NA
+counts[counts$Place.of.Production == '', "lng"] <- NA
+```
+
+###### A map of the locations of mints that produced Eagalic coinage based on 5000 coins from the MANTIS online database. Most are classical, with a handful coming from the more modern era.
+
+```{r}
+#| echo: false
+map = map_data("world")
+
+ggplot() + theme_void() +
+  geom_polygon(data = map, aes(x = long, y = lat, group = group), 
+               fill = "lightgray", color = 'gray') + 
+  geom_point(data = counts, aes(x = lng, y = lat, size = Freq), 
+             color = "brown", alpha = 0.7) +
+  scale_size_continuous(range = c(1, 4), name = "Frequency") +
+  
+  coord_fixed(1.3)
+```
+
+^~based on an excerpt of 5000 eagle coins from the MANTIS database~^
+
+Throughout history, eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.
+
+Take for example two ancient eagles, and two modern eagles:
+
+The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Impreial coins it represented Roman virtues.
+
+And in the relatively modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico's founding, while on American coins it represents liberty, and freedom.
+
+My name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson's Dean Rusk international experience grant, I am spending six weeks in Germany investigating the influence of ancient Greek and Roman coinage on the modern coinage of Europe, and the world. Last semester I wrote a paper on the eagle as it appears and changes on coins in the Davidson coin collection, and so this summer I'm continuing my investigation by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries). While I travel, I'm building up my own small dataset of all the eagle coins I see, which will be posted and analyzed on this website when I'm done with it.
+
+::: {layout-ncol="2"}
+![Basel Historical Museum's 'Treasure' coins](coins1.webp)
+
+![Me investigating some coins at the Colombischloessle in Freiburg](coins4.webp)
+
+![The Basel Museum's very well organized display](coins2.webp)
+
+![Coins, mostly German, at a local Freiburg antique shop](coins6.webp)
+:::
+
+## Where I've Been So Far:
+
+Freiburg - The Colombischloessle Archaeological Museum, Local shops
+
+Strasbourg - The Archaeological Museum in the Palais Rohan, Local shops
+
+Basel - The Basel Historical Museum
+
+Karlsruhe - The Badisches Landesmuseum
+
+Frankfurt - The Historisches Museum Frankfurt
+
+Berlin - The Bode-Museum
+
+Dresden - The Dresden Munzkabinett
+
+Munich - The Bavarian State Coin Collection

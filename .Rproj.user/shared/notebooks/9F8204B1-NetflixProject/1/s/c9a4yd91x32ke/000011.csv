@@ -1,0 +1,2 @@
+"0",""
+"0","hist(Netflix_1000$Hours.Viewed[Netflix_1000$Available.Globally. == 0], main = ""Hours when Not Global"", xlab = ""Hours Viewed"", breaks = 6, border = ""brown"", col = ""red"", xlim = c(0, 300000000), ylim = c(0, 500))"

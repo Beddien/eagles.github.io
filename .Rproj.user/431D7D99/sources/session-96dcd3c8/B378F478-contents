@@ -1,0 +1,80 @@
+---
+title: "W13"
+output: pdf_document
+date: "2025-11-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Before we begin, let's load some datasets and packages:
+
+```{r, message = F, warning = F}
+library(tidyverse)
+```
+
+```{r}
+Netflix <- read.csv("What_We_Watched_Netflix_Films.csv")
+```
+
+```{r}
+Netflix_1000 = Netflix %>%
+  slice(1:1000)
+```
+
+```{r}
+Netflix_1000$Available.Globally. <- recode(
+  as.character(Netflix_1000$Available.Globally.), "Yes" = 1, "No" = 0)
+```
+
+```{r}
+replaceCommas<-function(x){
+  x<-as.numeric(gsub("\\,", "", x))
+}
+
+Netflix_1000$Hours.Viewed <- replaceCommas(Netflix_1000$Hours.Viewed)
+Netflix_1000$Views <- replaceCommas(Netflix_1000$Views)
+
+```
+
+```{r}
+
+par(mfrow = c(1,2))
+
+hist(Netflix_1000$Hours.Viewed[Netflix_1000$Available.Globally. == 1], main = "Hours when Global", xlab = "Hours Viewed", breaks = 20, col = "lightblue", border = "blue", xlim = c(0, 300000000), ylim = c(0, 500))
+
+hist(Netflix_1000$Hours.Viewed[Netflix_1000$Available.Globally. == 0], main = "Hours when Not Global", xlab = "Hours Viewed", breaks = 6, border = "brown", col = "red", xlim = c(0, 300000000), ylim = c(0, 500))
+```
+
+```{r}
+
+par(mfrow = c(1,2))
+
+hist(Netflix_1000$Views[Netflix_1000$Available.Globally. == 1], main = "Views when Global", xlab = "Views", col = "lightblue", border = "blue", xlim = c(0, 300000000), ylim = c(0, 500))
+
+hist(Netflix_1000$Views[Netflix_1000$Available.Globally. == 0], main = "Views when Not Global", xlab = "Views", breaks = 6, border = "brown", col = "red", xlim = c(0, 300000000), ylim = c(0, 500))
+```
+
+```{r}
+sum(Netflix_1000$Available.Globally., na.rm = TRUE)
+
+# so there are 381 films globally available, and 619 not globally available
+```
+
+```{r}
+t.test(Views ~ Available.Globally., data = Netflix_1000, alternative = "less")
+```
+
+```{r}
+t.test(Hours.Viewed ~ Available.Globally., data = Netflix_1000, alternative = "less")
+```
+
+```{r}
+boxplot(Netflix_1000$Views[Netflix_1000$Available.Globally. == 0])
+```
+
+```{r}
+
+
+```

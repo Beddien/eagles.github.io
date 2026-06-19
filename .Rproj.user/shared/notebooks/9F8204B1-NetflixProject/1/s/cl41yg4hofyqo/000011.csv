@@ -1,0 +1,4 @@
+"0",""
+"0","par(mfrow = c(1,2))"
+"0",""
+"0","hist(Netflix_1000$Views[Netflix_1000$Available.Globally. == 1], main = ""Views when Global"", xlab = ""Views"", col = ""lightblue"", border = ""blue"", xlim = c(0, 300000000), ylim = c(0, 500))"

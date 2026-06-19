@@ -1,0 +1,2 @@
+"0","Netflix_1000 = Netflix %>%"
+"0","  slice(1:1000)"

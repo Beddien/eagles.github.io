@@ -1,0 +1,6 @@
+"0","sum(Netflix_1000$Available.Globally., na.rm = TRUE)"
+"1","[1]"
+"1"," 381"
+"1","
+"
+"0","# so there are 381 films globally available, and 619 not globally available"
