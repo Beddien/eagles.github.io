@@ -704,6 +704,7 @@ counts[counts$Place.of.Production == '', "lng"] <- NA
 
 ```{r}
 #| echo: false
+#| message: false
 map = map_data("world")
 
 ggplot() + theme_void() +
@@ -718,11 +719,13 @@ ggplot() + theme_void() +
 
 ^~based on an excerpt of 5000 eagle coins from the MANTIS database~^
 
+## Introduction
+
 Throughout history, eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.
 
 Take for example two ancient eagles, and two modern eagles:
 
-The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Impreial coins it represented Roman virtues.
+The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Imperial coins it represented Roman virtues.
 
 And in the relatively modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico's founding, while on American coins it represents liberty, and freedom.
 
@@ -738,6 +741,22 @@ My name is Will Reddien— I am a data and computer science student at Davidson 
 ![Coins, mostly German, at a local Freiburg antique shop](coins6.webp)
 :::
 
+## The Project
+
+My original project intentions were low--- I wanted to build a dataset of coins that I saw in museums and collections, and learn about the cataloging processes different organizations undergo for coinage. However, as I started working, I realized that my project had more potential than I originally thought. The first day that I was here, I came up with FOUR goals I wanted to complete that would develop my skills in Data Science, Programming, and Analysis. My current goals are:
+
+1.  Build a dataset from the coins I see that feature eagles
+
+2.  Train an image classification model to discern between coins with eagles and without eagles
+
+3.  Develop a price prediction model for ancient coins via linear regression
+
+4.  Launch a website to display everything I develop: My datasets and their analysis, maps of eagle coins throughout history, the models I've built, and what I learn about cataloging, sourcing, and presentation of coins through collections and museums.
+
+Are these goals perhaps a bit too lofty? Absolutely. Am I completing them all anyway? Hopefully!
+
+The launch of this website marks my fourth objective complete. In the background I'm still building a dataset of eagle coins I see, which will be presented on this website at the end of my trip along with other datasets I downloaded/built/scraped (legally) over the course of the project.
+
 ## Where I've Been So Far:
 
 Freiburg - The Colombischloessle Archaeological Museum, Local shops
@@ -745,6 +764,8 @@ Freiburg - The Colombischloessle Archaeological Museum, Local shops
 Strasbourg - The Archaeological Museum in the Palais Rohan, Local shops
 
 Basel - The Basel Historical Museum
+
+Lucerne - The Lucerne Historical Museum
 
 Karlsruhe - The Badisches Landesmuseum
 

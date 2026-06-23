@@ -1,5 +1,63 @@
 ---
-title: "Extra Extra"
+title: "Price Regression Model and Auction Data"
 ---
 
-I'm not sure yet what to put on this page, but rest assured it will be something eventually.
+```{r}
+#| echo: false
+library(DT)
+```
+
+
+```{r}
+#| echo: false
+auctiondata <- read.csv("CNGdata.csv")
+```
+
+In the modern day ancient coins are a commodity and a collector's item, despite or perhaps enhanced by their value as historical artifacts. As such, the prices of ancient coins are some of their most interesting features — what monetary value a theoretically 'worthless' coin has in the modern day can be effectively attributed to what somebody is willing to pay for it.
+
+## Building a Dataset from Auction Data
+
+As part of my analysis of all things eagle-coin related, I took data from the *Classical Numismatic Group LLC.*'s online research database of historic auctions in order to do some analysis on it. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below. I selected 200 coins all minted before 300 AD and sold after 2020, and entered most the relevant data from their entries— This included their sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions.
+
+![](CNGdataexcelscreenshot.png)
+
+And here, you can explore the auction data dataset yourself:
+
+```{r}
+datatable(auctiondata)
+```
+
+The variables I chose to add are the most important variables in deciding a coin's value, and most often its more than one value being rare that makes a coin unique— for instance, coins minted under Cleopatra VII are incredibly expensive, but if they are in poor condition they might be cheaper. Likewise, a common bronze coin might be graded Extremely Fine, and be worth more than a coin that would on average be much rarer than it.
+
+## Initial Findings and Visualizations
+
+Before building the price predictor I want to first show some interesting visuals I developed from the dataset, which will help provide context for whence the predictor was derived.
+
+The first visual is a bar chart with the number of coins that were sold at different price points— looking at it you can clearly see a right-skew, with most of the coins being sold at around \$100-\$200. There were however a few exceptional coins with much higher prices, although fewer and fewer as the price grew.
+
+
+```{r}
+#| echo: false
+hist(auctiondata$sold_price[auctiondata$sold_price > 1], main = "Frequency of Coin Auction Final Prices", xlab = "Sold Price", breaks = 20, col = "brown", border = "white")
+```
+
+Here is now a boxplot, which actually showcases some of the weaknesses with this data. The vast majority of the coins were graded Fine, Near Very Fine, and Very Fine, leaving only a bit of room for coins at other condition levels. Therefore, the trend is the strongest in those lowest plots, but you can still see how the price generally increases as the condition goes up. Note also the range of sold prices for Near VF and VF in particular.
+
+```{r}
+#| echo: false
+ana_order <- c("Near Fine", "Fine", "Near VF", "VF", "Near XF", "XF", "Choice XF", "AU")
+auctiondata$condition = factor(auctiondata$condition, levels = ana_order)
+```
+
+```{r}
+
+boxplot(sold_price~condition, data=auctiondata)
+```
+
+Here's a visualization of how many datapoints there are for each condition level, to put the previous plot even more into context:
+
+```{r}
+condition_data <- table(unlist(auctiondata$condition))
+
+barplot(condition_data)
+```
