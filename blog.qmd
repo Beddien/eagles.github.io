@@ -4,9 +4,10 @@ title: "Price Regression Model and Auction Data"
 
 ```{r}
 #| echo: false
+#| message: false
 library(DT)
+library(plotly)
 ```
-
 
 ```{r}
 #| echo: false
@@ -17,7 +18,7 @@ In the modern day ancient coins are a commodity and a collector's item, despite 
 
 ## Building a Dataset from Auction Data
 
-As part of my analysis of all things eagle-coin related, I took data from the *Classical Numismatic Group LLC.*'s online research database of historic auctions in order to do some analysis on it. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below. I selected 200 coins all minted before 300 AD and sold after 2020, and entered most the relevant data from their entries— This included their sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions.
+As part of my analysis of all things eagle-coin related, I took data from the *Classical Numismatic Group LLC.*'s online research database of historic auctions in order to do some analysis on it. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below. I selected 200 coins all minted before 300 AD (with one exception) and sold after 2020, and entered most the relevant data from their entries— This included their sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions.
 
 ![](CNGdataexcelscreenshot.png)
 
@@ -35,9 +36,7 @@ Before building the price predictor I want to first show some interesting visual
 
 The first visual is a bar chart with the number of coins that were sold at different price points— looking at it you can clearly see a right-skew, with most of the coins being sold at around \$100-\$200. There were however a few exceptional coins with much higher prices, although fewer and fewer as the price grew.
 
-
 ```{r}
-#| echo: false
 hist(auctiondata$sold_price[auctiondata$sold_price > 1], main = "Frequency of Coin Auction Final Prices", xlab = "Sold Price", breaks = 20, col = "brown", border = "white")
 ```
 
@@ -51,13 +50,35 @@ auctiondata$condition = factor(auctiondata$condition, levels = ana_order)
 
 ```{r}
 
-boxplot(sold_price~condition, data=auctiondata)
+boxplot(sold_price~condition, data=auctiondata, main = "Price Variance Based on Condition", xlab = "Condition, Increading Left to Right", ylab = "Sold Price")
 ```
 
-Here's a visualization of how many datapoints there are for each condition level, to put the previous plot even more into context:
+Here are two visualizations of how many datapoints there are for each condition level, to put the previous plot even more into context:
 
 ```{r}
 condition_data <- table(unlist(auctiondata$condition))
 
-barplot(condition_data)
+barplot(condition_data, main = "Number of Datapoints Per Condition", xlab = "Condition", ylab = "Number of Occurences", col = "brown")
+```
+
+```{r}
+#| echo: false
+sorted_cond_data = sort(condition_data, decreasing = TRUE)
+simplified_cond_data = c(sorted_cond_data[0:4], "Other" = sum(sorted_cond_data[5:8]))
+```
+
+```{r}
+pie(simplified_cond_data)
+```
+
+Lastly, here's a histogram showing how coins in the dataset were minted over time. The y axis measures the number of occurences of dates within the timeframes noted on the x axis, and the colored sections of the chart indicate what portion of coins from a given era came from each region.
+
+The distribution is somewhat bimodal, or even potentially trimodal with the highest points being between 300 and 200 BC (mostly from Alexandria/the Ptolemaic Empire) and between 200 and 300 AD.
+
+Ignoring the single post-300 AD coin, there's a weak, but present positive linear relationship between chronology and quantity of eagles. Although this is also based on the auction dataset, it is generally representative of the same trend we can see in larger datasets.
+
+```{r}
+fig = plot_ly(auctiondata, x = ~date_of_origin, color = ~mint_region, type = 'histogram') %>%
+  layout(barmode = 'stack')
+fig
 ```
