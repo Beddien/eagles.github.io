@@ -3,7 +3,7 @@
     "path": "~/WReddien/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "0",
+    "hash": "1214644079",
     "contents": "",
     "dirty": false,
     "created": 1781713695258.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "16,18",
+        "cursorPosition": "13,39",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1781883405,
+    "lastKnownWriteTime": 1782314055,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1781883405063,
+    "last_content_update": 1782314055914,
     "read_only": false,
     "read_only_alternatives": []
 }

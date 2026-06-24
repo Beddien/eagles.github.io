@@ -11,7 +11,7 @@ website:
       - text: "Home"
         href: index.qmd
       - about.qmd
-      - text: "More"
+      - text: "Data Analyses and Models"
         menu:
         
         - blog.qmd

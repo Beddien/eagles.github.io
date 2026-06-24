@@ -1,0 +1,152 @@
+---
+title: "data"
+---
+
+```{r}
+#| echo: false
+```
+
+```{ojs}
+//| echo: false
+data = FileAttachment("CNGdata.csv").csv({ typed: true })
+```
+
+```{ojs}
+//| echo: false
+viewof minting_date = Inputs.range(
+  [-1000, 350], 
+  {value: 0, step: 10, label: "Minting Date"}
+)
+
+viewof material = Inputs.select(
+  ["Bronze", "Silver", "Electrum", "Potin", "Billon"], 
+  { value: ["Bronze", "Silver", "Electrum", "Potin", "Billon"], 
+    label: "Material:"
+  }
+)
+
+viewof region = Inputs.select(
+  ["Egypt / North Africa", "Greece / Balkans", "Levant / Near East", "Steppe / Black Sea", "Western Europe", "Asia Minor"], 
+  { value: ["Egypt / North Africa", "Greece / Balkans", "Levant / Near East", "Steppe / Black Sea", "Western Europe", "Asia Minor"], 
+    label: "Region:"
+  }
+)
+
+viewof condition = Inputs.select(
+  ["Fine", "Near VF", "VF", "Near XF", "XF", "Choice XF", "AU"], 
+  { value: ["Fine", "Near VF", "VF", "Near XF", "XF", "Choice XF", "AU"], 
+    label: "Condition:"
+  }
+)
+```
+
+```{ojs}
+//| echo: false
+//sold_price ~ mint_region + date_of_origin + material + condition
+region_coeff = {
+  if (region === "Egypt / North Africa") return 131.5978;
+  if (region === "Greece / Balkans") return 127.1328;
+  if (region === "Levant / Near East") return 157.1758;
+  if (region === "Steppe / Black Sea") return 1548.7301;
+  if (region === "Western Europe") return 175.2700;
+  if (region === "Asia Minor") return 0;
+  return 0; // Baseline
+}
+  
+material_coeff = {
+  if (material === "Bronze") return 41.5806;
+  if (material === "Electrum") return 1136.6315;
+  if (material === "Potin") return -91.0923;
+  if (material === "Silver") return 251.8883;
+  if (material === "Billon") return 0;
+  return 0; // BL
+}
+
+condition_coeff = {
+  if (condition === "Fine") return -139.4210;
+  if (condition === "Near VF") return -70.9976;
+  if (condition === "VF") return -175.7941;
+  if (condition === "Near XF") return 8.5978;
+  if (condition === "XF") return 374.1220;
+  if (condition === "Choice XF") return 82.5739;
+  if (condition === "AU") return -132.7143;
+  return 0; //BL
+
+}
+
+date_coeff = -0.2103
+```
+
+```{ojs}
+//| echo: false
+//sold_price ~ mint_region + date_of_origin + material + condition
+predicted_price = 132.1588 + region_coeff + material_coeff + condition_coeff + (date_coeff * minting_date)
+
+```
+
+```{ojs}
+//| echo: false
+
+// 1. Generate an array of dates from -1000 to 350 (stepping by 10 years)
+all_dates = d3.range(-1000, 360, 10)
+
+// 2. Map those dates to their predicted prices based on the CURRENT user selections
+regression_line_data = all_dates.map(d => {
+  let base_price = 132.1588 + region_coeff + material_coeff + condition_coeff + (date_coeff * d);
+  return {
+    date: d,
+    price: Math.max(0, base_price) // Ensure it doesn't drop below $0 on the chart
+  };
+})
+```
+
+-- -- -- -- -- -- -- --
+
+```{ojs}
+//| echo: false
+
+
+Plot.plot({
+  grid: true,
+  style: {color: "#000000", fontSize: "19px"
+  },
+  caption: "The blue line shows how the price of a coin with your qualities changes as its minting date increases. The red dot indicates the estimated price point for your inputted date.",
+  x: {
+    label: "",
+    tickFormat: d => d < 0 ? `${Math.abs(d)} BC` : d === 0 ? "1 AD" : `${d} AD`
+  },
+  y: {
+    label: "Predicted Price ($ USD)",
+    zero: true
+  },
+  marks: [
+    // Draw the continuous regression line for the selected attributes
+    Plot.line(regression_line_data, {
+      x: "date", 
+      y: "price", 
+      stroke: "#2b5c8f", 
+      strokeWidth: 3
+    }),
+    
+    Plot.dot([{ date: minting_date, price: predicted_price }], {
+      x: "date", 
+      y: "price", 
+      fill: "#e05a47", 
+      r: 7,
+      stroke: "white",
+      strokeWidth: 2,
+      channels: {
+        Price: "price",
+        Date: "date"
+      },
+      tip: {
+        format: {
+          x: false, y: false,
+          Price: d => `$${d.toFixed(2)}`,
+          Date: d => d < 0 ? `${Math.abs(d)} BC` : `${d} AD`
+        }
+      }
+    })
+  ]
+})
+```
