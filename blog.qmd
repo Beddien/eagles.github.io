@@ -5,12 +5,14 @@ title: "Price Regression Model and Auction Data"
 ```{r}
 #| echo: false
 #| message: false
+#| warning: false
 library(DT)
 library(plotly)
 ```
 
 ```{r}
 #| echo: false
+#| warning: false
 auctiondata <- read.csv("CNGdata.csv")
 ```
 
@@ -18,13 +20,15 @@ In the modern day ancient coins are a commodity and a collector's item, despite 
 
 ## Building a Dataset from Auction Data
 
-As part of my analysis of all things eagle-coin related, I took data from the *Classical Numismatic Group LLC.*'s online research database of historic auctions in order to analyze some recent price data. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below, and converted into a .csv file. I selected 200 coins all minted before 300 AD (with one exception) and sold after 2020, and then logged the relevant data from their entries— This included sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions.
+As part of my analysis of all things eagle-coin related, I took data from the *Classical Numismatic Group LLC.*'s online research database of historic auctions in order to analyze some recent price data. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below, and converted into a .csv file. I selected 200 coins all minted before 300 AD (with one exception) and sold after 2020, and then logged the relevant data from their entries— This included sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions. Likewise, many of the coins I documented were listed as being minted between a range of dates— in those cases, I entered the date as the average date from within that range for the sake of simplicity.
 
 ![](CNGdataexcelscreenshot.png)
 
 And here, you can explore the auction data dataset yourself:
 
 ```{r}
+#| echo: false
+#| warning: false
 datatable(auctiondata)
 ```
 
@@ -37,6 +41,8 @@ Before building the price predictor I want to first show some interesting visual
 The first visual is a bar chart with the number of coins that were sold at different price points— looking at it you can clearly see a right-skew, with most of the coins being sold at around \$100-\$200. There were however a few exceptional coins with much higher prices, although fewer and fewer as the price grew.
 
 ```{r}
+#| echo: false
+#| warning: false
 hist(auctiondata$sold_price[auctiondata$sold_price > 1], main = "Frequency of Coin Auction Final Prices", xlab = "Sold Price", breaks = 20, col = "brown", border = "white")
 ```
 
@@ -44,30 +50,37 @@ The vast majority of the coins were graded Fine, Near Very Fine, and Very Fine, 
 
 ```{r}
 #| echo: false
+#| warning: false
 ana_order <- c("Near Fine", "Fine", "Near VF", "VF", "Near XF", "XF", "Choice XF", "AU")
 auctiondata$condition = factor(auctiondata$condition, levels = ana_order)
 ```
 
 ```{r}
-
+#| echo: false
+#| warning: false
 boxplot(sold_price~condition, data=auctiondata, main = "Price Variance Based on Condition", xlab = "Condition, Increasing Left to Right", ylab = "Sold Price")
 ```
 
-Here are two visualizations of how many coins in the dataset there are for each condition level, to put the previous plot even more into context:
+Here are two visualizations of how many coins in the dataset there are for each condition level, to put the previous plot even more into context: Note: The rating system for coin condition, starting at Near Fine, is this: Near Fine -\> Fine -\> Near VF -\> Very Fine (VF) -\> Near XF -\> XF (Extremely Fine) -\> Choice XF -\> AU
 
 ```{r}
+#| echo: false
+#| warning: false
 condition_data <- table(unlist(auctiondata$condition))
 
-barplot(condition_data, main = "Number of Datapoints Per Condition", xlab = "Condition, Increasing Right to Left", ylab = "Number of Occurences", col = "brown")
+barplot(condition_data, main = "Number of Datapoints Per Condition", xlab = "Condition, Increasing Left to Right", ylab = "Number of Occurences", col = "brown")
 ```
 
 ```{r}
 #| echo: false
+#| warning: false
 sorted_cond_data = sort(condition_data, decreasing = TRUE)
 simplified_cond_data = c(sorted_cond_data[0:4], "Other" = sum(sorted_cond_data[5:8]))
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
 pie(simplified_cond_data)
 ```
 
@@ -78,8 +91,10 @@ The distribution is somewhat bimodal, or even potentially trimodal with the high
 Ignoring the single post-300 AD coin, there's a weak, but present positive linear relationship between chronology and quantity of eagles. Although this is also based on the auction dataset, it is generally representative of the same trend we can see in larger datasets.
 
 ```{r}
+#| echo: false
+#| warning: false
 fig = plot_ly(auctiondata, x = ~date_of_origin, color = ~mint_region, type = 'histogram') %>%
-  layout(barmode = 'stack')
+  layout(barmode = 'stack', title = "Eagle Coins by Minting Date and Region", xaxis = list(title = "Date of Minting"), yaxis = list(title = "Number of Coins"))
 fig
 ```
 
@@ -87,23 +102,27 @@ fig
 
 The major project I've been able to create by collecting this auction dataset is a regression model that predicts the value of an ancient coin based on the variables in the dataset. This model, created through multiple linear regression, predicts a coin's value based on what values have been inputted for each variable.
 
-For example, based on the model a coin minted in BLAH BLAH BLAH TO BE WRITTEN
+For example, based on the model a very fine bronze eagle coin from north africa minted in 200 BC could be expected to sell for about \$170.
 
 It's important to note that while there is almost certainly strong correlation between many of these variables and price, because of the limited number of datapoints in the dataset and the fact that many of the variables are categorical, a completely accurate linear prediction model is not reasonably possible. However, the model was created in the same way a larger (or more numerical) dataset would be developed.
 
 ```{r}
 #| echo: false
+#| warning: false
 price_model <- lm(sold_price ~ mint_region + date_of_origin + material + condition, data = auctiondata)
 ```
 
 ```{r}
 #| echo: false
+#| warning: false
 price_model_modded <- lm(log(sold_price) ~ mint_region + date_of_origin + material + condition, data = auctiondata)
 ```
 
 Take a look at this: The plot of residuals against the fitted linear model.
 
 ```{r}
+#| echo: false
+#| warning: false
 plot(price_model, which = 1, sub = "", col = "brown")
 ```
 
@@ -120,6 +139,8 @@ It's also important to note that this model is limited by the fact that coin pri
 Here's another visual, which fixes our spread issue and makes the model a bit more linear:
 
 ```{r}
+#| echo: false
+#| warning: false
 plot(price_model_modded, which = 1, sub = "", col = "brown")
 ```
 
@@ -132,16 +153,24 @@ The x-axis is a little bit more complicated, but it can be effectively understoo
 Onto a Q-Q plot, which we'll do for both the original and log/modified linear data. First the original:
 
 ```{r}
+#| echo: false
+#| warning: false
 plot(price_model, which = 2, sub = "", col = "brown")
 ```
 
 And the log data:
 
 ```{r}
+#| echo: false
+#| warning: false
 plot(price_model_modded, which = 2, sub = "", col = "brown")
 ```
 
 In both graphs we can see some variance from the theoretical line on the tail ends, particularly at the higher end of the range. This is generally expected since the data, as we saw above, is strongly right skewed. This effect is slightly reduced in the Q-Q for our log model, although it is certainly still present.
+
+## Regression Accuracy and R Squared
+
+The last real indicator of accuracy we can look to is the R squared value for the regression model— or, the percentage of variation in the price values that can be reasonably explained by the regression model. In the case of the log-modified regression model our multiple R-Squared value is 0.3466, meaning the model developed from my dataset can explain about 35% of the variation in price values. This means much of the variance is unaccounted for, something which could be remedied with a much larger dataset.
 
 Overall, this model is relatively effective at predicting low price coins, but fails when estimating for coins of higher prices. This comes directly as a result of the fact that the data is significantly right skewed, and with more data regarding higher value coin sales the issue could certainly be resolved.
 
@@ -149,6 +178,7 @@ Although price prediction for coins is achievable, many of the sold coins listed
 
 ## Test the Model
 
+This predictor performs most effectively between \$60 and \$500, other values may be unreliable. Likewise, certain other characteristics of coins are underrepresented in the dataset— for example, electrum coins— and thus the price predictions may not be accurate. It is also important to note that all of these coins feature the eagle prominently, and thus this model cannot be generalized to standard ancient coins.
 
 ```{ojs}
 //| echo: false
@@ -231,20 +261,18 @@ predicted_price = 132.1588 + region_coeff + material_coeff + condition_coeff + (
 ```{ojs}
 //| echo: false
 
-// 1. Generate an array of dates from -1000 to 350 (stepping by 10 years)
 all_dates = d3.range(-1000, 360, 10)
 
-// 2. Map those dates to their predicted prices based on the CURRENT user selections
 regression_line_data = all_dates.map(d => {
   let base_price = 132.1588 + region_coeff + material_coeff + condition_coeff + (date_coeff * d);
   return {
     date: d,
-    price: Math.max(0, base_price) // Ensure it doesn't drop below $0 on the chart
+    price: Math.max(0, base_price)
   };
 })
 ```
 
--- -- -- -- -- -- -- --
+------------------------------------------------------------------------
 
 ```{ojs}
 //| echo: false
@@ -264,7 +292,7 @@ Plot.plot({
     zero: true
   },
   marks: [
-    // Draw the continuous regression line for the selected attributes
+    
     Plot.line(regression_line_data, {
       x: "date", 
       y: "price", 
@@ -294,4 +322,3 @@ Plot.plot({
   ]
 })
 ```
-

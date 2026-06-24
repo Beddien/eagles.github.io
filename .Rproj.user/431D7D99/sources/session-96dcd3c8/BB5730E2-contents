@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, message = F, warning = F}
 #| echo: false
+#| warning: false
 library(tidyverse)
 library(ggplot2)
 library(maps)
@@ -16,6 +17,7 @@ library(pandoc)
 
 ```{r}
 #| echo: false
+#| warning: false
 ME5 <- read.csv("MantisEagles.csv")
 ME5 = ME5[20:50]
 
@@ -23,11 +25,13 @@ ME5 = ME5[20:50]
 
 ```{r}
 #| echo: false
+#| warning: false
 MantisEagles5000 = ME5[, c(22, 24, 5)]
 ```
 
 ```{r}
 #| echo: false
+#| warning: false
 x = MantisEagles5000[3]
 counts = data.frame(table(x))
 counts["lat"] = 0
@@ -36,6 +40,7 @@ counts["lng"] = 0
 
 ```{r}
 #| echo: false
+#| warning: false
 counts[counts$Place.of.Production == 'Abydus', "lat"] <- 40.1953
 counts[counts$Place.of.Production == 'Abydus', "lng"] <- 26.4019
 
@@ -705,6 +710,7 @@ counts[counts$Place.of.Production == '', "lng"] <- NA
 ```{r}
 #| echo: false
 #| message: false
+#| warning: false
 map = map_data("world")
 
 ggplot() + theme_void() +
