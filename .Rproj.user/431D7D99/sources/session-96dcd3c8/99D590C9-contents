@@ -14,12 +14,13 @@ website:
       - text: "Data Analyses and Models"
         menu:
         
-        - blog.qmd
+        - auctiondata.qmd
+        - imageclassifier.qmd
 
 format:
   html:
     theme: vapor
-    css: styles.css
+    css: backgroundsettings.css
     toc: true
 
 editor: visual

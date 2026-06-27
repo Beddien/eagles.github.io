@@ -10,5 +10,11 @@
   },
   "datapage.qmd": {
     "datapage.html": "40f4446b"
+  },
+  "imageclassifier.qmd": {
+    "imageclassifier.html": "324e4842"
+  },
+  "auctiondata.qmd": {
+    "auctiondata.html": "19ed895f"
   }
 }

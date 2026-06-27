@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Price Regression Model and Auction Data – William Reddien</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="site_libs/datatables-binding-0.30/datatables.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="site_libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="site_libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="site_libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="backgroundsettings.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">William Reddien</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analyses-and-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analyses and Models</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analyses-and-models">    
+        <li>
+    <a class="dropdown-item" href="./auctiondata.html">
+ <span class="dropdown-text">Price Regression Model and Auction Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./imageclassifier.html">
+ <span class="dropdown-text">Image Classification Model</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#building-a-dataset-from-auction-data" id="toc-building-a-dataset-from-auction-data" class="nav-link active" data-scroll-target="#building-a-dataset-from-auction-data">Building a Dataset from Auction Data</a></li>
+  <li><a href="#initial-findings-and-visualizations" id="toc-initial-findings-and-visualizations" class="nav-link" data-scroll-target="#initial-findings-and-visualizations">Initial Findings and Visualizations</a></li>
+  <li><a href="#price-prediction-regression-model" id="toc-price-prediction-regression-model" class="nav-link" data-scroll-target="#price-prediction-regression-model">Price Prediction Regression Model</a></li>
+  <li><a href="#regression-accuracy-and-r-squared" id="toc-regression-accuracy-and-r-squared" class="nav-link" data-scroll-target="#regression-accuracy-and-r-squared">Regression Accuracy and R Squared</a></li>
+  <li><a href="#test-the-model" id="toc-test-the-model" class="nav-link" data-scroll-target="#test-the-model">Test the Model</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Price Regression Model and Auction Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In the modern day ancient coins are a commodity and a collector’s item, despite or perhaps enhanced by their value as historical artifacts. As such, the prices of ancient coins are some of their most interesting features — what monetary value a theoretically ‘worthless’ coin has in the modern day can be effectively attributed to what somebody is willing to pay for it.</p>
+<section id="building-a-dataset-from-auction-data" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-dataset-from-auction-data">Building a Dataset from Auction Data</h2>
+<p>As part of my analysis of all things eagle-coin related, I took data from the <em>Classical Numismatic Group, LLC.</em>’s online research database of historic auctions in order to analyze some recent price data. All of the auction data was manually entered into an excel spreadsheet by me, in the format seen below, and converted into a .csv file. I selected 200 eagle-coins all minted before 300 AD (with one exception) and sold after 2020, and then logged the relevant data from their entries— This included sold price, material, condition, minting location, and date of creation. Because of lack of quantity of coins from specific mints, I generalized the mints into larger regions. Likewise, many of the coins I documented were listed as being minted between a range of dates— in those cases, I entered the date as the average date from within that range for the sake of simplicity.</p>
+<p><img src="CNGdataexcelscreenshot.png" class="img-fluid"></p>
+<p>And here, you can explore the auction data dataset yourself:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-261390c8cd4fbcdf9160" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-261390c8cd4fbcdf9160">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200],["Asia Minor","Asia Minor","Western Europe","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Asia Minor","Asia Minor","Egypt / North Africa","Egypt / North Africa","Western Europe","Levant / Near East","Western Europe","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Greece / Balkans","Asia Minor","Asia Minor","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Greece / Balkans","Greece / Balkans","Greece / Balkans","Greece / Balkans","Asia Minor","Asia Minor","Asia Minor","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Western Europe","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Greece / Balkans","Egypt / North Africa","Egypt / North Africa","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Levant / Near East","Western Europe","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Greece / Balkans","Asia Minor","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe","Western Europe","Western Europe","Western Europe","Greece / Balkans","Greece / Balkans","Asia Minor","Asia Minor","Asia Minor","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Asia Minor","Asia Minor","Asia Minor","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Western Europe","Western Europe","Western Europe","Steppe / Black Sea","Asia Minor","Levant / Near East","Levant / Near East","Levant / Near East","Asia Minor","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Asia Minor","Asia Minor","Levant / Near East","Levant / Near East","Western Europe","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Levant / Near East","Egypt / North Africa","Western Europe","Levant / Near East","Levant / Near East","Egypt / North Africa","Egypt / North Africa","Egypt / North Africa","Western Europe","Western Europe"],[-390,-390,-445,-410,-283.5,-283.5,-323,-173.5,-92.5,-380,-234,-112.5,-75,214.5,-75,219,239,217.5,47.5,97,107.5,238,242.5,82.5,220,220,-282.5,-267.5,-280,-200,-92.5,-465,-293.5,-265.5,-192,-130.5,-75,249,251,215.5,127.5,145.5,244.5,262.5,265.5,265.5,279,284.5,-387.5,-481.5,-283.5,-323,-323,-296.5,-247.5,-324.5,-174,-208.5,-465,-325,-30.5,-311.5,-253,-263.5,-255.5,-234,-234,-219,-202.5,-202.5,219,244,248,226.5,244,259.5,264.5,-105,-410.5,-410.5,-296.5,-267.5,-323,-275.5,-253.5,-255.5,-248.5,-265.5,-233.5,-233.5,-213.5,-199,-75,62.5,146,244,248.5,270,273.5,275,282.5,282.5,287.5,-212.5,-481.5,-410.5,-267.5,-267.5,-234.5,-106.5,-33.5,-40.5,-40.5,228.5,207.5,96.5,247,244,52.5,52.5,52.5,83.5,106.5,107.5,138.5,260.5,114,-300,252.5,328.5,-216.5,-281,-41.5,-92.5,-345,-63.5,-126.5,-86.5,-83.5,32.5,-252.5,-234.5,-192,-155.5,-108.5,-97.5,-52.5,-40.5,-40.5,210,60,25.5,62.5,247,248,250,252.5,149.5,107.5,216,217.5,-105,-57,-41,-50,-465,-22.5,-265.5,-234.5,-242.5,-192,-148.5,-148.5,-80.5,-52.5,-40.5,250,127.5,217.5,217.5,246,248.5,249.5,250,250,250.2,216,217.5,149.5,70.5,70.5,266.5,-10,66,246.5,241,269,272.5,-57,-55],["Electrum","Electrum","Silver","Bronze","Bronze","Bronze","Silver","Bronze","Bronze","Silver","Bronze","Silver","Bronze","Silver","Bronze","Silver","Silver","Silver","Bronze","Billon","Billon","Billon","Billon","Silver","Silver","Silver","Bronze","Silver","Bronze","Bronze","Bronze","Silver","Silver","Bronze","Bronze","Bronze","Bronze","Billon","Billon","Bronze","Bronze","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Silver","Silver","Bronze","Silver","Silver","Silver","Silver","Bronze","Silver","Silver","Silver","Silver","Silver","Billon","Bronze","Bronze","Silver","Bronze","Bronze","Bronze","Bronze","Bronze","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Silver","Bronze","Bronze","Silver","Silver","Silver","Bronze","Bronze","Silver","Silver","Bronze","Bronze","Bronze","Bronze","Silver","Bronze","Silver","Bronze","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Bronze","Silver","Bronze","Silver","Silver","Bronze","Silver","Silver","Bronze","Bronze","Bronze","Bronze","Silver","Billon","Billon","Bronze","Bronze","Bronze","Bronze","Bronze","Bronze","Bronze","Billon","Billon","Silver","Bronze","Bronze","Silver","Silver","Bronze","Bronze","Silver","Bronze","Silver","Silver","Silver","Silver","Bronze","Bronze","Bronze","Silver","Silver","Silver","Silver","Bronze","Bronze","Bronze","Bronze","Bronze","Silver","Billon","Billon","Billon","Billon","Bronze","Billon","Billon","Billon","Silver","Silver","Silver","Gold","Silver","Bronze","Bronze","Bronze","Bronze","Silver","Bronze","Bronze","Silver","Silver","Bronze","Bronze","Bronze","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Billon","Bronze","Silver","Silver","Potin","Bronze","Silver","Billon","Billon","Billon","Potin","Silver","Silver"],["VF","VF","VF","VF","VF","VF","VF","VF","Near VF","Near VF","VF","VF","VF","Near VF","VF","VF","Near VF","VF","VF","VF","Near Fine","Near VF","Near Fine","Near VF","Near VF","Near VF","VF","Near VF","Near VF","Near Fine","Near VF","VF","VF","VF","Near VF","VF","VF","VF","VF","Fine","Fine","VF","VF","VF","Near VF","Near VF","Near VF","VF","Near VF","Near VF","VF","VF","Near VF","Near VF","Near VF","VF","XF","VF","VF","Fine","VF","Fine","VF","Near XF","Near VF","VF","Near VF","Near VF","Near VF","Near Fine","XF","AU","VF","VF","VF","VF","Near VF","VF","VF","VF","VF","Near VF","VF","VF","Near VF","VF","Near VF","Near VF","Near VF","Near VF","VF","Near XF","VF","Near Fine","VF","VF","VF","VF","Near VF","Near VF","VF","Near VF","VF","Near VF","Near VF","Near VF","VF","Choice XF","Near VF","Near VF","Fine","Near Fine","Fine","XF","Near VF","VF","AU","VF","VF","VF","Near VF","Near VF","Near VF","Near Fine","Near VF","Near VF","Fine","VF","VF","VF","Near VF","VF","Fine","Near VF","VF","Near VF","VF","Choice VF","VF","VF","VF","VF","VF","VF","VF","VF","VF","Near VF","Near Fine","VF","Near VF","Near VF","Near VF","Near VF","Near VF","XF","Near VF","Near Fine","Near VF","VF","VF","VF","VF","VF","Near XF","VF","Near VF","Near VF","Near VF","Near VF","Near VF","Near VF","Near VF","Near VF","VF","Near Fine","Near VF","VF","VF","VF","XF","Near VF","Near VF","Near VF","Near VF","Near XF","XF","Near VF","Near Fine","Near VF","Near Fine","Near VF","VF","Near VF","Near Fine","VF","Near VF","Near VF","VF","VF"],[1500,850,190,275,110,150,350,130,70,275,250,190,225,130,140,110,130,70,160,180,90,80,70,275,100,60,100,475,250,60,160,160,350,90,90,100,325,45,45,130,180,110,140,100,70,80,60,80,450,1800,300,425,250,275,500,60,3000,100,60,140,1500,140,100,350,750,180,90,140,140,80,90,100,60,100,100,100,130,180,120,250,300,425,180,275,190,325,300,110,250,225,50,400,375,150,120,110,50,200,60,80,80,80,130,150,325,500,200,650,500,325,140,1300,600,200,450,425,110,60,160,80,60,80,225,140,60,60,140,350,150,170,2500,325,190,140,550,100,150,1000,1300,1600,200,110,160,160,150,140,170,900,1300,130,110,150,950,60,80,150,225,60,450,140,425,250,130,190,1700,80,60,120,70,80,650,90,80,150,110,850,100,160,130,100,425,425,300,130,500,500,160,475,60,600,80,60,140,275,20,85,40,30,325,170]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>X<\/th>\n      <th>mint_region<\/th>\n      <th>date_of_origin<\/th>\n      <th>material<\/th>\n      <th>condition<\/th>\n      <th>sold_price<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,3,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The variables I chose to add are the most important variables in deciding a coin’s value, and most often it’s the combination of multiple rare traits that makes a coin uniquely valuable— for instance, coins minted under Cleopatra VII are incredibly expensive, but if they are in poor condition they tend to be cheaper. Likewise a common bronze coin might be graded Extremely Fine, and ergo be worth more than a coin that might typically be rarer.</p>
+</section>
+<section id="initial-findings-and-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="initial-findings-and-visualizations">Initial Findings and Visualizations</h2>
+<p>Before building the price predictor I want to first show some interesting visuals I developed from the dataset, which will help provide context for the prediction model.</p>
+<p>The first visual is a bar chart with the number of coins that were sold at different price points— looking at it you can clearly see a right-skew, with most of the coins being sold at around $100-$200. There were a few exceptional coins with much higher prices, although fewer and fewer as the price grew.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The vast majority of the coins were graded Fine, Near Very Fine, and Very Fine, leaving only a bit of room for coins at other condition levels. As a result, in this boxplot the trend is the strongest in the lowest grades, but you can still see how the price generally increases as the condition goes up. The boxes that appear only as lines are representative of the limited number of entries with those grade levels. Note also the range of sold prices for Near VF and VF in particular.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here are two visualizations of how many coins in the dataset there are for each condition level, to put the previous plot even more into context: Note: The rating system for coin condition in this dataset, starting at Near Fine, is this: Near Fine -&gt; Fine -&gt; Near VF -&gt; Very Fine (VF) -&gt; Near XF -&gt; XF (Extremely Fine) -&gt; Choice XF -&gt; AU</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lastly, here’s a histogram showing how coins in the dataset were minted over time. The y axis measures the number of occurrences of dates within the timeframes noted on the x axis, and the colored sections of the chart indicate what portion of coins from a given era came from each region.</p>
+<p>The distribution is somewhat bimodal, or even potentially trimodal with the highest points being between 300 and 200 BC (mostly from Alexandria/the Ptolemaic Empire) and between 200 and 300 AD.</p>
+<p>Ignoring the single post-300 AD coin, there’s a weak, but present positive linear relationship between chronology and quantity of eagles. Although this is based on my small auction dataset, it is generally representative of the same trend we can see in larger datasets.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-dd2df0973340e78f28a5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-dd2df0973340e78f28a5">{"x":{"visdat":{"2787387e411554":["function () ","plotlyVisDat"]},"cur_data":"2787387e411554","attrs":{"2787387e411554":{"x":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"histogram"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"barmode":"stack","title":"Eagle Coins by Minting Date and Region","xaxis":{"domain":[0,1],"automargin":true,"title":"Date of Minting"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Coins"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-390,-390,-92.5,-380,-92.5,-465,-208.5,-465,-325,207.5,-92.5,-345,-63.5,210,60,25.5,-465,-242.5,250,127.5],"type":"histogram","name":"Asia Minor","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[-234,-112.5,47.5,97,107.5,238,242.5,-265.5,-192,-130.5,127.5,145.5,244.5,262.5,265.5,265.5,279,284.5,-311.5,-253,-234,-234,-219,-202.5,-202.5,226.5,244,259.5,264.5,-275.5,-253.5,-233.5,-233.5,-213.5,270,273.5,275,282.5,282.5,287.5,-234.5,-106.5,-33.5,-40.5,-40.5,52.5,52.5,52.5,83.5,106.5,107.5,138.5,260.5,-252.5,-234.5,-192,-108.5,-97.5,-52.5,-40.5,-40.5,-192,-148.5,-148.5,-80.5,-52.5,-40.5,266.5,241,269,272.5],"type":"histogram","name":"Egypt / North Africa","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[-323,-173.5,-267.5,-280,-200,-323,-323,-296.5,-247.5,-324.5,-174,-296.5,-267.5,-323,-267.5,-267.5,228.5,-281,-41.5],"type":"histogram","name":"Greece / Balkans","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[214.5,219,239,217.5,-293.5,249,251,215.5,-30.5,-255.5,219,244,248,-255.5,-248.5,-265.5,-199,62.5,146,244,248.5,96.5,247,244,-126.5,-86.5,-83.5,32.5,-155.5,62.5,247,248,250,252.5,149.5,107.5,216,217.5,-22.5,-265.5,-234.5,217.5,217.5,248.5,249.5,250,250,250.19999999999999,216,217.5,149.5,70.5,70.5,66,246.5],"type":"histogram","name":"Levant / Near East","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[-50],"type":"histogram","name":"Steppe / Black Sea","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[-445,-410,-283.5,-283.5,-75,-75,82.5,220,220,-282.5,-75,-387.5,-481.5,-283.5,-263.5,-105,-410.5,-410.5,-75,-212.5,-481.5,-410.5,114,-300,252.5,328.5,-216.5,-105,-57,-41,246,-10,-57,-55],"type":"histogram","name":"Western Europe","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="price-prediction-regression-model" class="level2">
+<h2 class="anchored" data-anchor-id="price-prediction-regression-model">Price Prediction Regression Model</h2>
+<p>The major project I’ve been able to create by collecting this auction dataset is a regression model that predicts the value of an ancient coin based on the variables in my auction dataset. This model, created through multiple linear regression, predicts a coin’s value based on what values have been inputted for each variable.</p>
+<p>For example, based on the model a very fine bronze eagle coin from north Africa minted in 200 BC could be expected to sell for about $170.</p>
+<p>It’s important to note that while there is almost certainly strong correlation between many of these variables and price, because of the limited number of datapoints in the dataset and the fact that many of the variables are categorical, a completely accurate linear prediction model is not reasonably possible. However, the model was created in the same way a larger (or more numerical) dataset would be developed.</p>
+<p>Take a look at this: The plot of residuals against the fitted linear model.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Some explanation of the image: Right now, the model maps the difference between actual price data from the dataset and the price predicted by the model on the Y-axis as points, while the x-axis represents the prices of the coins.</p>
+<p>The predicted model is very clearly nonlinear here, making a sort of U shape. The shaping of the model indicates that a linear model is not a good predictor for this dataset. Normally this is a bad sign, but take a look at where the majority of the data is:</p>
+<p>The U shape is effectively divided into three sections— an initial decreasing section, a flat middle section, and an increasing third section. In the case of our data, the vast majority of the residuals are strongly correlated with the slightly negative linear trend in the first third of the model.</p>
+<p>Additionally, look at the shape the residuals make over time: The residuals start closely tied to the model, and spread out over time in a shape almost like a cone or megaphone. This is a phenomenon known as heteroscedasticity, and its presence here indicates that when predicting coins at low price points the model is highly accurate— however, as price predictions get high the model’s accuracy decreases drastically.</p>
+<p>It’s also important to note that this model is limited by the fact that coin prices cannot drop below $0.</p>
+<p>Here’s another visual, which fixes our spread issue and makes the model a bit more linear:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By taking the log() of the sold_price category in the original model, we can approximate a somewhat more linear and significantly more evenly distributed regression model. This does change the meaning of the plot, though, and its distribution still isn’t incredibly even.</p>
+<p>The y-axis here represents percentage errors between the predicted prices and actual prices. This means that a point at 0.1 on the y-axis had a price 10% higher than what the model predicted.</p>
+<p>The x-axis is a little bit more complicated, but it can be effectively understood as a squished or shrunken down version of the previous x-axis. Each of the numbers on the x-axis, when used as the exponent on e<sup>x</sup> to undo the log function, will be equivalent to some dollar value. Basically, a coin at 6 is more expensive than a coin at 5 by a lot (e<sup>6</sup> vs e<sup>5</sup> USD), a coin at 5 is more expensive than a coin at 4 by a smaller margin, and so on and so forth.</p>
+<p>Onto a Q-Q plot, which we’ll create for both the original and log/modified linear data. First the original:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And the log data:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="auctiondata_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In both graphs we can see some variance from the theoretical line on the tail ends, particularly at the higher end of the range. This is generally expected since the data, as we saw above, is strongly right skewed. This effect is slightly reduced in the Q-Q for our log model, although it is certainly still present.</p>
+</section>
+<section id="regression-accuracy-and-r-squared" class="level2">
+<h2 class="anchored" data-anchor-id="regression-accuracy-and-r-squared">Regression Accuracy and R Squared</h2>
+<p>The last real indicator of accuracy we can look to is the R squared value for the regression model— or, the percentage of variation in the price values that can be reasonably explained by the regression model. In the case of the log-modified regression model our multiple R-Squared value is 0.3466, meaning the model developed from my dataset can explain about 35% of the variation in price values. This means much of the variance is unaccounted for, something which could be remedied with a much larger dataset.</p>
+<p>Overall, this model is relatively effective at predicting low price coins, but fails when estimating for coins of higher prices. This comes directly as a result of the fact that the data is significantly right skewed— with more data from higher value coin sales the issue could certainly be resolved.</p>
+<p>Although price prediction for coins is achievable, many of the sold coins listed on even <em>CNG</em>’s website were sold for values much higher than the group’s own prediction model, illustrating the difficulty in developing price predictions for a market where new, unique artifacts are introduced constantly.</p>
+</section>
+<section id="test-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="test-the-model">Test the Model</h2>
+<p>This predictor performs most effectively between $60 and $500, meaning other values may be unreliable. Likewise, certain other characteristics of coins are underrepresented in the dataset— for example, electrum coins— and thus the price predictions may not be accurate. It is also important to note that all of these coins feature the eagle prominently, and thus this model cannot be generalized to standard ancient coins.</p>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="184" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 183;"><span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="fu">FileAttachment</span>(<span class="st">"CNGdata.csv"</span>)<span class="op">.</span><span class="fu">csv</span>({ <span class="dt">typed</span><span class="op">:</span> <span class="kw">true</span> })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="190" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 189;"><span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>viewof minting_date <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>(</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>  [<span class="op">-</span><span class="dv">1000</span><span class="op">,</span> <span class="dv">350</span>]<span class="op">,</span> </span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">value</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Minting Date"</span>}</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>viewof material <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"Bronze"</span><span class="op">,</span> <span class="st">"Silver"</span><span class="op">,</span> <span class="st">"Electrum"</span><span class="op">,</span> <span class="st">"Potin"</span><span class="op">,</span> <span class="st">"Billon"</span>]<span class="op">,</span> </span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">value</span><span class="op">:</span> [<span class="st">"Bronze"</span><span class="op">,</span> <span class="st">"Silver"</span><span class="op">,</span> <span class="st">"Electrum"</span><span class="op">,</span> <span class="st">"Potin"</span><span class="op">,</span> <span class="st">"Billon"</span>]<span class="op">,</span> </span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Material:"</span></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>viewof region <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"Egypt / North Africa"</span><span class="op">,</span> <span class="st">"Greece / Balkans"</span><span class="op">,</span> <span class="st">"Levant / Near East"</span><span class="op">,</span> <span class="st">"Steppe / Black Sea"</span><span class="op">,</span> <span class="st">"Western Europe"</span><span class="op">,</span> <span class="st">"Asia Minor"</span>]<span class="op">,</span> </span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">value</span><span class="op">:</span> [<span class="st">"Egypt / North Africa"</span><span class="op">,</span> <span class="st">"Greece / Balkans"</span><span class="op">,</span> <span class="st">"Levant / Near East"</span><span class="op">,</span> <span class="st">"Steppe / Black Sea"</span><span class="op">,</span> <span class="st">"Western Europe"</span><span class="op">,</span> <span class="st">"Asia Minor"</span>]<span class="op">,</span> </span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Region:"</span></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>viewof condition <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"Fine"</span><span class="op">,</span> <span class="st">"Near VF"</span><span class="op">,</span> <span class="st">"VF"</span><span class="op">,</span> <span class="st">"Near XF"</span><span class="op">,</span> <span class="st">"XF"</span><span class="op">,</span> <span class="st">"Choice XF"</span><span class="op">,</span> <span class="st">"AU"</span>]<span class="op">,</span> </span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">value</span><span class="op">:</span> [<span class="st">"Fine"</span><span class="op">,</span> <span class="st">"Near VF"</span><span class="op">,</span> <span class="st">"VF"</span><span class="op">,</span> <span class="st">"Near XF"</span><span class="op">,</span> <span class="st">"XF"</span><span class="op">,</span> <span class="st">"Choice XF"</span><span class="op">,</span> <span class="st">"AU"</span>]<span class="op">,</span> </span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Condition:"</span></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-2-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="220" data-source-offset="-67"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 219;"><span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>region_coeff <span class="op">=</span> {</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Egypt / North Africa"</span>) <span class="cf">return</span> <span class="fl">131.5978</span><span class="op">;</span></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Greece / Balkans"</span>) <span class="cf">return</span> <span class="fl">127.1328</span><span class="op">;</span></span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Levant / Near East"</span>) <span class="cf">return</span> <span class="fl">157.1758</span><span class="op">;</span></span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Steppe / Black Sea"</span>) <span class="cf">return</span> <span class="fl">1548.7301</span><span class="op">;</span></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Western Europe"</span>) <span class="cf">return</span> <span class="fl">175.2700</span><span class="op">;</span></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (region <span class="op">===</span> <span class="st">"Asia Minor"</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// Baseline</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>material_coeff <span class="op">=</span> {</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (material <span class="op">===</span> <span class="st">"Bronze"</span>) <span class="cf">return</span> <span class="fl">41.5806</span><span class="op">;</span></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (material <span class="op">===</span> <span class="st">"Electrum"</span>) <span class="cf">return</span> <span class="fl">1136.6315</span><span class="op">;</span></span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (material <span class="op">===</span> <span class="st">"Potin"</span>) <span class="cf">return</span> <span class="op">-</span><span class="fl">91.0923</span><span class="op">;</span></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (material <span class="op">===</span> <span class="st">"Silver"</span>) <span class="cf">return</span> <span class="fl">251.8883</span><span class="op">;</span></span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (material <span class="op">===</span> <span class="st">"Billon"</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// BL</span></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>condition_coeff <span class="op">=</span> {</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"Fine"</span>) <span class="cf">return</span> <span class="op">-</span><span class="fl">139.4210</span><span class="op">;</span></span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"Near VF"</span>) <span class="cf">return</span> <span class="op">-</span><span class="fl">70.9976</span><span class="op">;</span></span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"VF"</span>) <span class="cf">return</span> <span class="op">-</span><span class="fl">175.7941</span><span class="op">;</span></span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"Near XF"</span>) <span class="cf">return</span> <span class="fl">8.5978</span><span class="op">;</span></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"XF"</span>) <span class="cf">return</span> <span class="fl">374.1220</span><span class="op">;</span></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"Choice XF"</span>) <span class="cf">return</span> <span class="fl">82.5739</span><span class="op">;</span></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (condition <span class="op">===</span> <span class="st">"AU"</span>) <span class="cf">return</span> <span class="op">-</span><span class="fl">132.7143</span><span class="op">;</span></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span> <span class="co">//BL</span></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a>date_coeff <span class="op">=</span> <span class="op">-</span><span class="fl">0.2103</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="255" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 254;"><span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="co">//sold_price ~ mint_region + date_of_origin + material + condition</span></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a>predicted_price <span class="op">=</span> <span class="fl">132.1588</span> <span class="op">+</span> region_coeff <span class="op">+</span> material_coeff <span class="op">+</span> condition_coeff <span class="op">+</span> (date_coeff <span class="op">*</span> minting_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb5" data-startfrom="264" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 263;"><span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a>all_dates <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(<span class="op">-</span><span class="dv">1000</span><span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">10</span>)</span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a>regression_line_data <span class="op">=</span> all_dates<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> {</span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> base_price <span class="op">=</span> <span class="fl">132.1588</span> <span class="op">+</span> region_coeff <span class="op">+</span> material_coeff <span class="op">+</span> condition_coeff <span class="op">+</span> (date_coeff <span class="op">*</span> d)<span class="op">;</span></span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a>    <span class="dt">date</span><span class="op">:</span> d<span class="op">,</span></span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a>    <span class="dt">price</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> base_price)</span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-5-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-5-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code hidden" id="cb6" data-startfrom="278" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 277;"><span id="cb6-278"><a href="#cb6-278" aria-hidden="true" tabindex="-1"></a>Plot<span class="op">.</span><span class="fu">plot</span>({</span>
+<span id="cb6-279"><a href="#cb6-279" aria-hidden="true" tabindex="-1"></a>  <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb6-280"><a href="#cb6-280" aria-hidden="true" tabindex="-1"></a>  <span class="dt">style</span><span class="op">:</span> {<span class="dt">color</span><span class="op">:</span> <span class="st">"#000000"</span><span class="op">,</span> <span class="dt">fontSize</span><span class="op">:</span> <span class="st">"15px"</span></span>
+<span id="cb6-281"><a href="#cb6-281" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb6-282"><a href="#cb6-282" aria-hidden="true" tabindex="-1"></a>  <span class="dt">caption</span><span class="op">:</span> <span class="st">"The blue line shows how the price of a coin with your qualities changes as its minting date increases. The red dot indicates the estimated price point for your inputted date."</span><span class="op">,</span></span>
+<span id="cb6-283"><a href="#cb6-283" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {</span>
+<span id="cb6-284"><a href="#cb6-284" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">""</span><span class="op">,</span></span>
+<span id="cb6-285"><a href="#cb6-285" aria-hidden="true" tabindex="-1"></a>    <span class="dt">tickFormat</span><span class="op">:</span> d <span class="kw">=&gt;</span> d <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="vs">`</span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d)<span class="sc">}</span><span class="vs"> BC`</span> <span class="op">:</span> d <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="st">"1 AD"</span> <span class="op">:</span> <span class="vs">`</span><span class="sc">${</span>d<span class="sc">}</span><span class="vs"> AD`</span></span>
+<span id="cb6-286"><a href="#cb6-286" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb6-287"><a href="#cb6-287" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {</span>
+<span id="cb6-288"><a href="#cb6-288" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="st">"Predicted Price ($ USD)"</span><span class="op">,</span></span>
+<span id="cb6-289"><a href="#cb6-289" aria-hidden="true" tabindex="-1"></a>    <span class="dt">zero</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb6-290"><a href="#cb6-290" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb6-291"><a href="#cb6-291" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb6-292"><a href="#cb6-292" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-293"><a href="#cb6-293" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">line</span>(regression_line_data<span class="op">,</span> {</span>
+<span id="cb6-294"><a href="#cb6-294" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"date"</span><span class="op">,</span> </span>
+<span id="cb6-295"><a href="#cb6-295" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"price"</span><span class="op">,</span> </span>
+<span id="cb6-296"><a href="#cb6-296" aria-hidden="true" tabindex="-1"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"#2b5c8f"</span><span class="op">,</span> </span>
+<span id="cb6-297"><a href="#cb6-297" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">3</span></span>
+<span id="cb6-298"><a href="#cb6-298" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
+<span id="cb6-299"><a href="#cb6-299" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-300"><a href="#cb6-300" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">dot</span>([{ <span class="dt">date</span><span class="op">:</span> minting_date<span class="op">,</span> <span class="dt">price</span><span class="op">:</span> predicted_price }]<span class="op">,</span> {</span>
+<span id="cb6-301"><a href="#cb6-301" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="st">"date"</span><span class="op">,</span> </span>
+<span id="cb6-302"><a href="#cb6-302" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> <span class="st">"price"</span><span class="op">,</span> </span>
+<span id="cb6-303"><a href="#cb6-303" aria-hidden="true" tabindex="-1"></a>      <span class="dt">fill</span><span class="op">:</span> <span class="st">"#e05a47"</span><span class="op">,</span> </span>
+<span id="cb6-304"><a href="#cb6-304" aria-hidden="true" tabindex="-1"></a>      <span class="dt">r</span><span class="op">:</span> <span class="dv">7</span><span class="op">,</span></span>
+<span id="cb6-305"><a href="#cb6-305" aria-hidden="true" tabindex="-1"></a>      <span class="dt">stroke</span><span class="op">:</span> <span class="st">"white"</span><span class="op">,</span></span>
+<span id="cb6-306"><a href="#cb6-306" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strokeWidth</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb6-307"><a href="#cb6-307" aria-hidden="true" tabindex="-1"></a>      <span class="dt">channels</span><span class="op">:</span> {</span>
+<span id="cb6-308"><a href="#cb6-308" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Price</span><span class="op">:</span> <span class="st">"price"</span><span class="op">,</span></span>
+<span id="cb6-309"><a href="#cb6-309" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Date</span><span class="op">:</span> <span class="st">"date"</span></span>
+<span id="cb6-310"><a href="#cb6-310" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb6-311"><a href="#cb6-311" aria-hidden="true" tabindex="-1"></a>      <span class="dt">tip</span><span class="op">:</span> {</span>
+<span id="cb6-312"><a href="#cb6-312" aria-hidden="true" tabindex="-1"></a>        <span class="dt">format</span><span class="op">:</span> {</span>
+<span id="cb6-313"><a href="#cb6-313" aria-hidden="true" tabindex="-1"></a>          <span class="dt">x</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb6-314"><a href="#cb6-314" aria-hidden="true" tabindex="-1"></a>          <span class="dt">Price</span><span class="op">:</span> d <span class="kw">=&gt;</span> <span class="vs">`$</span><span class="sc">${</span>d<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">,</span></span>
+<span id="cb6-315"><a href="#cb6-315" aria-hidden="true" tabindex="-1"></a>          <span class="dt">Date</span><span class="op">:</span> d <span class="kw">=&gt;</span> d <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="vs">`</span><span class="sc">${</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d)<span class="sc">}</span><span class="vs"> BC`</span> <span class="op">:</span> <span class="vs">`</span><span class="sc">${</span>d<span class="sc">}</span><span class="vs"> AD`</span></span>
+<span id="cb6-316"><a href="#cb6-316" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb6-317"><a href="#cb6-317" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb6-318"><a href="#cb6-318" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb6-319"><a href="#cb6-319" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb6-320"><a href="#cb6-320" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-6" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImRhdGEgPSBGaWxlQXR0YWNobWVudChcIkNOR2RhdGEuY3N2XCIpLmNzdih7IHR5cGVkOiB0cnVlIH0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgbWludGluZ19kYXRlID0gSW5wdXRzLnJhbmdlKFxuICBbLTEwMDAsIDM1MF0sIFxuICB7dmFsdWU6IDAsIHN0ZXA6IDEwLCBsYWJlbDogXCJNaW50aW5nIERhdGVcIn1cbilcblxudmlld29mIG1hdGVyaWFsID0gSW5wdXRzLnNlbGVjdChcbiAgW1wiQnJvbnplXCIsIFwiU2lsdmVyXCIsIFwiRWxlY3RydW1cIiwgXCJQb3RpblwiLCBcIkJpbGxvblwiXSwgXG4gIHsgdmFsdWU6IFtcIkJyb256ZVwiLCBcIlNpbHZlclwiLCBcIkVsZWN0cnVtXCIsIFwiUG90aW5cIiwgXCJCaWxsb25cIl0sIFxuICAgIGxhYmVsOiBcIk1hdGVyaWFsOlwiXG4gIH1cbilcblxudmlld29mIHJlZ2lvbiA9IElucHV0cy5zZWxlY3QoXG4gIFtcIkVneXB0IC8gTm9ydGggQWZyaWNhXCIsIFwiR3JlZWNlIC8gQmFsa2Fuc1wiLCBcIkxldmFudCAvIE5lYXIgRWFzdFwiLCBcIlN0ZXBwZSAvIEJsYWNrIFNlYVwiLCBcIldlc3Rlcm4gRXVyb3BlXCIsIFwiQXNpYSBNaW5vclwiXSwgXG4gIHsgdmFsdWU6IFtcIkVneXB0IC8gTm9ydGggQWZyaWNhXCIsIFwiR3JlZWNlIC8gQmFsa2Fuc1wiLCBcIkxldmFudCAvIE5lYXIgRWFzdFwiLCBcIlN0ZXBwZSAvIEJsYWNrIFNlYVwiLCBcIldlc3Rlcm4gRXVyb3BlXCIsIFwiQXNpYSBNaW5vclwiXSwgXG4gICAgbGFiZWw6IFwiUmVnaW9uOlwiXG4gIH1cbilcblxudmlld29mIGNvbmRpdGlvbiA9IElucHV0cy5zZWxlY3QoXG4gIFtcIkZpbmVcIiwgXCJOZWFyIFZGXCIsIFwiVkZcIiwgXCJOZWFyIFhGXCIsIFwiWEZcIiwgXCJDaG9pY2UgWEZcIiwgXCJBVVwiXSwgXG4gIHsgdmFsdWU6IFtcIkZpbmVcIiwgXCJOZWFyIFZGXCIsIFwiVkZcIiwgXCJOZWFyIFhGXCIsIFwiWEZcIiwgXCJDaG9pY2UgWEZcIiwgXCJBVVwiXSwgXG4gICAgbGFiZWw6IFwiQ29uZGl0aW9uOlwiXG4gIH1cbilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vc29sZF9wcmljZSB+IG1pbnRfcmVnaW9uICsgZGF0ZV9vZl9vcmlnaW4gKyBtYXRlcmlhbCArIGNvbmRpdGlvblxucmVnaW9uX2NvZWZmID0ge1xuICBpZiAocmVnaW9uID09PSBcIkVneXB0IC8gTm9ydGggQWZyaWNhXCIpIHJldHVybiAxMzEuNTk3ODtcbiAgaWYgKHJlZ2lvbiA9PT0gXCJHcmVlY2UgLyBCYWxrYW5zXCIpIHJldHVybiAxMjcuMTMyODtcbiAgaWYgKHJlZ2lvbiA9PT0gXCJMZXZhbnQgLyBOZWFyIEVhc3RcIikgcmV0dXJuIDE1Ny4xNzU4O1xuICBpZiAocmVnaW9uID09PSBcIlN0ZXBwZSAvIEJsYWNrIFNlYVwiKSByZXR1cm4gMTU0OC43MzAxO1xuICBpZiAocmVnaW9uID09PSBcIldlc3Rlcm4gRXVyb3BlXCIpIHJldHVybiAxNzUuMjcwMDtcbiAgaWYgKHJlZ2lvbiA9PT0gXCJBc2lhIE1pbm9yXCIpIHJldHVybiAwO1xuICByZXR1cm4gMDsgLy8gQmFzZWxpbmVcbn1cbiAgXG5tYXRlcmlhbF9jb2VmZiA9IHtcbiAgaWYgKG1hdGVyaWFsID09PSBcIkJyb256ZVwiKSByZXR1cm4gNDEuNTgwNjtcbiAgaWYgKG1hdGVyaWFsID09PSBcIkVsZWN0cnVtXCIpIHJldHVybiAxMTM2LjYzMTU7XG4gIGlmIChtYXRlcmlhbCA9PT0gXCJQb3RpblwiKSByZXR1cm4gLTkxLjA5MjM7XG4gIGlmIChtYXRlcmlhbCA9PT0gXCJTaWx2ZXJcIikgcmV0dXJuIDI1MS44ODgzO1xuICBpZiAobWF0ZXJpYWwgPT09IFwiQmlsbG9uXCIpIHJldHVybiAwO1xuICByZXR1cm4gMDsgLy8gQkxcbn1cblxuY29uZGl0aW9uX2NvZWZmID0ge1xuICBpZiAoY29uZGl0aW9uID09PSBcIkZpbmVcIikgcmV0dXJuIC0xMzkuNDIxMDtcbiAgaWYgKGNvbmRpdGlvbiA9PT0gXCJOZWFyIFZGXCIpIHJldHVybiAtNzAuOTk3NjtcbiAgaWYgKGNvbmRpdGlvbiA9PT0gXCJWRlwiKSByZXR1cm4gLTE3NS43OTQxO1xuICBpZiAoY29uZGl0aW9uID09PSBcIk5lYXIgWEZcIikgcmV0dXJuIDguNTk3ODtcbiAgaWYgKGNvbmRpdGlvbiA9PT0gXCJYRlwiKSByZXR1cm4gMzc0LjEyMjA7XG4gIGlmIChjb25kaXRpb24gPT09IFwiQ2hvaWNlIFhGXCIpIHJldHVybiA4Mi41NzM5O1xuICBpZiAoY29uZGl0aW9uID09PSBcIkFVXCIpIHJldHVybiAtMTMyLjcxNDM7XG4gIHJldHVybiAwOyAvL0JMXG5cbn1cblxuZGF0ZV9jb2VmZiA9IC0wLjIxMDNcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ii8vc29sZF9wcmljZSB+IG1pbnRfcmVnaW9uICsgZGF0ZV9vZl9vcmlnaW4gKyBtYXRlcmlhbCArIGNvbmRpdGlvblxucHJlZGljdGVkX3ByaWNlID0gMTMyLjE1ODggKyByZWdpb25fY29lZmYgKyBtYXRlcmlhbF9jb2VmZiArIGNvbmRpdGlvbl9jb2VmZiArIChkYXRlX2NvZWZmICogbWludGluZ19kYXRlKVxuXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTUiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbmFsbF9kYXRlcyA9IGQzLnJhbmdlKC0xMDAwLCAzNjAsIDEwKVxuXG5yZWdyZXNzaW9uX2xpbmVfZGF0YSA9IGFsbF9kYXRlcy5tYXAoZCA9PiB7XG4gIGxldCBiYXNlX3ByaWNlID0gMTMyLjE1ODggKyByZWdpb25fY29lZmYgKyBtYXRlcmlhbF9jb2VmZiArIGNvbmRpdGlvbl9jb2VmZiArIChkYXRlX2NvZWZmICogZCk7XG4gIHJldHVybiB7XG4gICAgZGF0ZTogZCxcbiAgICBwcmljZTogTWF0aC5tYXgoMCwgYmFzZV9wcmljZSlcbiAgfTtcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTYiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcblxuUGxvdC5wbG90KHtcbiAgZ3JpZDogdHJ1ZSxcbiAgc3R5bGU6IHtjb2xvcjogXCIjMDAwMDAwXCIsIGZvbnRTaXplOiBcIjE1cHhcIlxuICB9LFxuICBjYXB0aW9uOiBcIlRoZSBibHVlIGxpbmUgc2hvd3MgaG93IHRoZSBwcmljZSBvZiBhIGNvaW4gd2l0aCB5b3VyIHF1YWxpdGllcyBjaGFuZ2VzIGFzIGl0cyBtaW50aW5nIGRhdGUgaW5jcmVhc2VzLiBUaGUgcmVkIGRvdCBpbmRpY2F0ZXMgdGhlIGVzdGltYXRlZCBwcmljZSBwb2ludCBmb3IgeW91ciBpbnB1dHRlZCBkYXRlLlwiLFxuICB4OiB7XG4gICAgbGFiZWw6IFwiXCIsXG4gICAgdGlja0Zvcm1hdDogZCA9PiBkIDwgMCA/IGAke01hdGguYWJzKGQpfSBCQ2AgOiBkID09PSAwID8gXCIxIEFEXCIgOiBgJHtkfSBBRGBcbiAgfSxcbiAgeToge1xuICAgIGxhYmVsOiBcIlByZWRpY3RlZCBQcmljZSAoJCBVU0QpXCIsXG4gICAgemVybzogdHJ1ZVxuICB9LFxuICBtYXJrczogW1xuICAgIFxuICAgIFBsb3QubGluZShyZWdyZXNzaW9uX2xpbmVfZGF0YSwge1xuICAgICAgeDogXCJkYXRlXCIsIFxuICAgICAgeTogXCJwcmljZVwiLCBcbiAgICAgIHN0cm9rZTogXCIjMmI1YzhmXCIsIFxuICAgICAgc3Ryb2tlV2lkdGg6IDNcbiAgICB9KSxcbiAgICBcbiAgICBQbG90LmRvdChbeyBkYXRlOiBtaW50aW5nX2RhdGUsIHByaWNlOiBwcmVkaWN0ZWRfcHJpY2UgfV0sIHtcbiAgICAgIHg6IFwiZGF0ZVwiLCBcbiAgICAgIHk6IFwicHJpY2VcIiwgXG4gICAgICBmaWxsOiBcIiNlMDVhNDdcIiwgXG4gICAgICByOiA3LFxuICAgICAgc3Ryb2tlOiBcIndoaXRlXCIsXG4gICAgICBzdHJva2VXaWR0aDogMixcbiAgICAgIGNoYW5uZWxzOiB7XG4gICAgICAgIFByaWNlOiBcInByaWNlXCIsXG4gICAgICAgIERhdGU6IFwiZGF0ZVwiXG4gICAgICB9LFxuICAgICAgdGlwOiB7XG4gICAgICAgIGZvcm1hdDoge1xuICAgICAgICAgIHg6IGZhbHNlLCB5OiBmYWxzZSxcbiAgICAgICAgICBQcmljZTogZCA9PiBgJCR7ZC50b0ZpeGVkKDIpfWAsXG4gICAgICAgICAgRGF0ZTogZCA9PiBkIDwgMCA/IGAke01hdGguYWJzKGQpfSBCQ2AgOiBgJHtkfSBBRGBcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH0pXG4gIF1cbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ21pbnRpbmdfZGF0ZScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdtYXRlcmlhbCcpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdyZWdpb24nKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnY29uZGl0aW9uJykifV19
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
