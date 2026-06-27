@@ -4,7 +4,7 @@ title: "Image Classification Model"
 
 In researching coinage for this project I encountered an issue I didn't expect to find: poor documentation. It makes sense that the coins I track down in local shops may not have all of the information I'd like to see, but during my trip I visited several museums which displayed coins without any given information. Documentation for every coin in a museum installation may be too high an ask, especially when coins are not a major selling point for a site.
 
-I couldn't help but wonder, though, since many of these smaller museums did not have their collections displayed online, if perhaps the difficulty and time-commitment that comes with identifying and documenting every individual coin in a collection was a limiting factor. I know from experience that very few tools exist that can accurately identify coins, and none that I know of for free. At some point during this project, I had the idea
+I couldn't help but wonder, though, since many of these smaller museums did not have their collections displayed online, if perhaps the difficulty and time-commitment that comes with identifying and documenting every individual coin in a collection was a limiting factor. I know from experience that very few tools exist that can accurately identify coins, and none that I know of for free. At some point during this project, I had the idea to build (or at least attempt to build) that tool myself.
 
 As a proof of concept, I used images from the *MANTIS* coin database to train a neural network that can identify eagle-coins.
 
@@ -26,7 +26,7 @@ For this project I used images I collected manually— reasonable, since my mode
 
 I then began training the model. I ultimately went through two phases of training, with 25 epochs each. Training the model asks it to take each image in the training folder and make a prediction based on what it already knows about my images. After it makes a prediction for the entire dataset, it reports its accuracy score and repeats the process. After all 25 passes through the dataset, the model saves the weights derived from its most accurate attempt so that it can improve upon itself in future training runs.
 
-The first attempt was not clean, and I saw a 65% accuracy rating. This is expected, since my dataset is not large enough to reach industry standard accuracy ratings, but 65% accuracy on the first run was generally a great success. I did encounter an issue early in the process with the sizes and formatting of my images, but was able to improve the model such that it can reformat and resize images to be compatable with the way the model works.
+The first attempt was not clean, and I saw a 65% accuracy rating. This is expected, since my dataset is not large enough to reach industry standard accuracy ratings, but 65% accuracy on the first run was generally a great success. I did encounter an issue early in the process with the sizes and formatting of my images, but was able to improve the model such that it can reformat and resize images to be compatible with the way the model works.
 
 The second run of training went faster than the first, and saw much higher accuracy at a best score of 80%. This is about the highest I could have hoped for with such a small dataset, so this second round marked the project as a success.
 
@@ -44,7 +44,9 @@ Finally, I ran a third session of training— which saw no improvements. Again, 
 ![](images/training6)
 :::
 
-As seen in the four images above, the model is relatively accurate at identifying whether images of coins feature eagles or not (which tracks, based on the 80% success rate). While it is not perfect, based on the dataset it can at the very least successfully identify eagles that fit into the most typical design archetypes with high success, even if it still trips over trickier images and some non-eagle coins.
+As seen in the four images above, the model is relatively accurate at identifying whether images of coins feature eagles or not (which tracks, based on the 80% success rate). The first three images are labeled correctly, with the first two coins featuring eagles and the third featuring a temple. The fourth however is incorrect, with the model labeling it an eagle when it is in fact not. Understandly so, though, as the image does seem somewhat eagle shaped.
+
+While it is not perfect, based on the dataset it can at the very least successfully identify eagles that fit into the most typical design archetypes with high success, even if it still trips over trickier images and some non-eagle coins.
 
 I consider this project a huge success— I learned how to build, test, and train image classification software at a small scale, and develop skills that I could later apply to a larger database.
 
@@ -55,3 +57,5 @@ While I would love to increase the size of my dataset drastically and train my m
 One final development I would want to make would be training the model on the names of rulers within each previously trained society and era, and potentially use information on the minting series of that ruler to have the model identify a potential top 3-4 series' a given coin could be from.
 
 This would be very time-consuming, and as such I will likely never reach that final phase of development, but it might be reasonable to build a new dataset with coins for a specific empire, for example the Ptolemaic Empire, and train the model to identify coins from rulers first, then series'. This would be logistically much easier for me to develop as a single person, and could serve as an even better proof of concept for an all-encompassing classification model.
+
+While I cannot include the classifier directly on this website without going through a third party, I have linked the .pt script for the program on the github repo for this website.

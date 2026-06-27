@@ -19,7 +19,7 @@ website:
 
 format:
   html:
-    theme: vapor
+    theme: sandstone
     css: backgroundsettings.css
     toc: true
 
