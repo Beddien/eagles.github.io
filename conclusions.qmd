@@ -1,0 +1,16 @@
+---
+title: "Conclusions"
+#format: html
+---
+
+## The Success of the Project
+
+## My (brief) Discussion with a Curator
+
+When I originally set out to complete this project, I had grand hopes of meeting with curators or collection managers, studying in studiensaals, and learning about where every coin each collection comes from through discussions with figureheads. Unfortunately, though I reached out to a number of institutions (and ultimately visited many of them), I did not receive a single reply, even upon following up. While I am generally disappointed with this, I was still able to achieve almost all of what I set out to do, and as such the detail seems minute.
+
+However, I did have one chance to talk for only a few minutes with a curator of the Staatliche Muenzsammlung in Munich. After spending quite a bit of time in the collection I realized that it was almost its closing time. I was leaving, but fortunately as I was walking towards the door, I ran into a man I didn't catch the name of, but who I was told by the desk attendant was one of the experts on the museum. I spoke to him briefly in German, and was thankfully able to ask him a handful of questions I had prepared in advance just in case this happened.
+
+Through our very brief discussion, I was able to learn a number of things about Munich's collection. Firstly, they do actively purchase coins even to this day, despite the collection being over 500 years old. This was also notable, since the curator mentioned that buying coins was their primary way of acquiring new artifacts (as opposed to donations or from archaeological excavations). The museum has a digital catalog (which I had already engaged with), and it is updated to include all new acquisitions. While I speak and read German relatively effectively, I couldn't determine what some of the displays were, in particular several giant, ornate cases. The curator explained to me that they were the boxes in which the coins had been stored leading up to the modern day, hence the existence of the collection for 500 years.
+
+We talked a bit more briefly about the collection, but only a bit longer since he seemed to be busy. I had learned what I needed, though, since purchased coins (as you might expect, and as I learned through creating my auctiondata dataset) are highly documented, and thus, combined with their digital catalog, seems to be extensively and observably documented, in such a way that I am able to learn a great deal about their documentation style by engaging with their digital system.

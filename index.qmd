@@ -725,17 +725,19 @@ ggplot() + theme_void() +
 
 ^~based on an excerpt of 5000 eagle coins from the MANTIS database~^
 
-## Introduction
+## Introduction - An Intersection Between Data Science and Humanities
 
-Throughout history, eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.
+Throughout history eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.
 
-Take for example two ancient eagles, and two modern eagles:
+Take for example two ancient eagles and two modern eagles:
 
-The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Imperial coins it represented Roman virtues.
+The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Imperial coins it served as a symbol of Roman virtues.
 
-And in the relatively modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico's founding, while on American coins it represents liberty, and freedom.
+Likewise in the (relatively) modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico's founding, while on American coins it represents liberty and freedom.
 
-My name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson's Dean Rusk international experience grant, I am spending six weeks in Germany investigating the influence of ancient Greek and Roman coinage on the modern coinage of Europe, and the world. Last semester I wrote a paper on the eagle as it appears and changes on coins in the Davidson coin collection, and so this summer I'm continuing my investigation by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries). While I travel, I'm building up my own small dataset of all the eagle coins I see, which will be posted and analyzed on this website when I'm done with it.
+My name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson's Dean Rusk international experience grant, I am spending six weeks in Germany (and surrounding regions) investigating the unique intersection between humanities and data science that is numismatics. Particularly, I am engaging with the image of the eagle on these ancient coins, as well as studying how these coins are cataloged, curated, and studied in the modern day. Last semester I wrote a paper on how the eagle appears and changes on coins in the Davidson coin collection, and I'm continuing my investigation this summer by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries) all the while collecting, interpreting, and analyzing data.
+
+From creating a model that can classify images of coins to a price predicting regression model, this project has grown far beyond its original scope and become what I would consider to an advanced data analysis project, and one that has led me to develop a variety of new skills in the field on top of deepening and enhancing my old ones.
 
 ::: {layout-ncol="2"}
 ![Basel Historical Museum's 'Treasure' coins](coins1.webp)
@@ -749,36 +751,40 @@ My name is Will Reddien— I am a data and computer science student at Davidson 
 
 ## The Project
 
-My original project intentions were low--- I wanted to build a dataset of coins that I saw in museums and collections, and learn about the cataloging processes different organizations undergo for coinage. However, as I started working, I realized that my project had more potential than I originally thought. The first day that I was here, I came up with FOUR goals I wanted to complete that would develop my skills in Data Science, Programming, and Analysis. My current goals are:
+As this project grew in scope a number of new goals arose for me, on top of those I originally pursued. In order to chase those new ideas, though, I needed to commit a substantial amount of time to not only learning but applying skills as a data analyst.
+
+During my first few days in Germany, I built a roadmap with goals for the trip. I went on to complete all of these goals, despite the fact that I constantly changed ideas or added new ones to the list as the trip progressed. Here is that list:
 
 1.  Build a dataset from the coins I see that feature eagles
 
-2.  Train an image classification model to discern between coins with eagles and without eagles
+2.  Learn about the cataloging process of ancient coins and how it differs between different collections, as well as study how different collections and museums present their coins — then, write a piece discussing the benefits and negatives to different methods
 
-3.  Develop a price prediction model for ancient coins via linear regression
+3.  Train an image classification model to discern between coins with eagles and without eagles
 
-4.  Launch a website to display everything I develop: My datasets and their analysis, maps of eagle coins throughout history, the models I've built, and what I learn about cataloging, sourcing, and presentation of coins through collections and museums.
+4.  Develop a price prediction model for ancient coins via linear regression and historical auction data
 
-Are these goals perhaps a bit too lofty? Absolutely. Am I completing them all anyway? Hopefully!
+5.  Create an interactive map that shows where eagle coins were minted at different points in time
 
-The launch of this website marks my fourth objective complete. In the background I'm still building a dataset of eagle coins I see, which will be presented on this website at the end of my trip along with other datasets I downloaded/built/scraped (legally) over the course of the project.
+6.  Launch a website to display everything I develop: My datasets and their analysis, maps of eagle coins throughout history, the models I've built, and what I learn about cataloging, sourcing, and presentation of coins through collections and museums.
 
-## Where I've Been So Far:
+The launch of this website marks my final objective complete. At this point, all of the other goals on the list are complete, and can be found/interacted with in different pages on the website. It's important to note, though, that each of these overarching goals was secretly a number of smaller objectives, so even the seemingly simple ones required a number of different skills and steps to complete.
+
+Along with my analysis, the datasets I built/downloaded/scraped (legally) can be found throughout the website's pages, free for you to scroll through if so desired.
+
+## Everywhere I Traveled:
 
 Freiburg - The Colombischloessle Archaeological Museum, Local shops
 
-Strasbourg - The Archaeological Museum in the Palais Rohan, Local shops
+Strasbourg - The Archaeological Museum, Local shops
 
 Basel - The Basel Historical Museum
 
-Lucerne - The Lucerne Historical Museum
+Lucerne - Museum Luzern
 
-Karlsruhe - The Badisches Landesmuseum
+Berlin - The Bode-Museum, The Neues Museum
 
-Frankfurt - The Historisches Museum Frankfurt
+Dresden - The Dresden Muenzkabinett
 
-Berlin - The Bode-Museum
+Munich - The Staatliche Muenzsammlung
 
-Dresden - The Dresden Munzkabinett
-
-Munich - The Bavarian State Coin Collection
+Salzburg - The Fortress Museum

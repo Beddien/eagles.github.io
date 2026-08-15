@@ -1,0 +1,19 @@
+---
+title: "The Hidden Coins of Shops and Local Museums"
+---
+
+## Building a Holistic, Cross-Collection Datalog
+
+Data regarding ancient coins is lost almost constantly for a variety of reasons— people steal coins from archaeological digs and sell them in secrecy, meaning we lose data as to what hoard they might have been a part of, or where they were actually found. One of those reasons, though, is completely avoidable, simply being the fact that many of the coins that have been documented by individual collectors or that are featured in small museums or sold in coin shops do not have their data entries accessible online.
+
+Not to say that online documentation of coins is a requirement for having a collection, but when so much data is left on the cutting room floor, one wonders if any potential use was lost. Especially with many collections being considered separately, it feels like the combination of the colletcions in some mass digital catalog could fill in the gaps in our knowledge about many less studied or less accessible coins. I sought to remedy these issue, at least a little bit, through this project, and I believe that at least as a proof of concept the project has been successful.
+
+## Development Processes
+
+As noted before, throughout this trip I visited a variety of local and large museums, along with both coin-focused shops and general antique stores in search of undocumented coins. Thankfully, while coin collecting is relatively popular in Germany there were a tangible, finite number of shops in each city for my to visit. Each time I visited a shop, I scanned through their catalog looking for ancient coins, and especially ancient coins with eagles on them— of course, being one complete comprehensive dataset would be the ultimate goal of an expanded version of this project, my focus during this trip was primarily eagalic coins if only because I think they are especially interesting and cool.
+
+Once I was in a shop and had identified some coins of interest, I checked first for what documentation was listed with the coin (often very little to none other than a price), took a photo of one or both sides of a coin when possible, and wrote down any other information that could be helpful for later identification. As I visited more and more shops I became better and better at this, and was even able to see some behind the counter coins (even when they weren't especially of interest).
+
+I performed a similar process when visiting museums, moving through their collections looking for coins with visible eagles. Unfortunately (as I note in my page on coin cataloging and display) it is effectively impossible to know if a coin has an eagle on its non-visible side without knowing every coin in the museum, and as such it is inevitable that some coins were missed using this approach. Regardless, I wrote down the usually more helpful information regarding the museums' coins, and took photos of their faces.
+
+Finally, after visiting a museum, shop, or collection and gathering the information needed, I would begin the process of identifying the coins myself by cross referencing their designs and information with those of various digital catalogs such as MANTIS and CRRO. After an identification process of a difficulty somewhere between instant identification and a 1 hour wild goose chase, I documented the vital information I found about each specific coin in an Excel master spreadsheet. Now, after repeating this process for each coin hotspot, I have built out a fully documented collection of coins which fords the boundaries between officially presented and somewhat underground coins— a collection which can be accessed on this very webpage.

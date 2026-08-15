@@ -32,7 +32,7 @@ And here, you can explore the auction data dataset yourself:
 datatable(auctiondata)
 ```
 
-The variables I chose to add are the most important variables in deciding a coin's value, and most often it's the combination of multiple rare traits that makes a coin uniquely valuable— for instance, coins minted under Cleopatra VII are incredibly expensive, but if they are in poor condition they tend to be cheaper. Likewise a common bronze coin might be graded Extremely Fine, and ergo be worth more than a coin that might typically be rarer.
+The variables I chose to add are the most important variables in deciding a coin's value, although most often it's the combination of multiple rare traits that makes a coin uniquely valuable. For instance, coins minted under Cleopatra VII are incredibly expensive, with silver coins vastly outranking those made from bronze. On the flipside, though, one of these traits can drastically change a coin's value— a common bronze coin might be graded Extremely Fine, and ergo be worth more than a coin that might typically be rarer.
 
 ## Initial Findings and Visualizations
 
@@ -88,7 +88,7 @@ Lastly, here's a histogram showing how coins in the dataset were minted over tim
 
 The distribution is somewhat bimodal, or even potentially trimodal with the highest points being between 300 and 200 BC (mostly from Alexandria/the Ptolemaic Empire) and between 200 and 300 AD.
 
-Ignoring the single post-300 AD coin, there's a weak, but present positive linear relationship between chronology and quantity of eagles. Although this is based on my small auction dataset, it is generally representative of the same trend we can see in larger datasets.
+Ignoring the single post-300 AD coin, there's a weak, but present positive linear relationship between chronology and quantity of eagles. Although this is based on my small auction dataset, it is generally representative of the same trend we can see in larger datasets. The spikes that occur in certain periods of time are likely also present (if to a different extent) in a more full dataset of these coins.
 
 ```{r}
 #| echo: false
@@ -282,7 +282,7 @@ Plot.plot({
   grid: true,
   style: {color: "#000000", fontSize: "15px"
   },
-  caption: "The blue line shows how the price of a coin with your qualities changes as its minting date increases. The red dot indicates the estimated price point for your inputted date.",
+  caption: "The blue line shows how the price of a coin with the given qualities changes as its minting date increases. The red dot indicates the estimated price point for your inputted date.",
   x: {
     label: "",
     tickFormat: d => d < 0 ? `${Math.abs(d)} BC` : d === 0 ? "1 AD" : `${d} AD`

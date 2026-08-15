@@ -10,12 +10,19 @@ website:
     left:
       - text: "Home"
         href: index.qmd
-      - about.qmd
+      - text: "On Cataloging and Displays"
+        href: catalogs.qmd
+      - text: "My Dataset"
+        href: mydata.qmd
+      - text: "Project Results"
+        href: conclusions.qmd
       - text: "Data Analyses and Models"
         menu:
         
         - auctiondata.qmd
         - imageclassifier.qmd
+      - about.qmd
+
 
 format:
   html:

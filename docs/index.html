@@ -93,8 +93,16 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="./catalogs.html"> 
+<span class="menu-text">On Cataloging and Displays</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./mydata.html"> 
+<span class="menu-text">My Dataset</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./conclusions.html"> 
+<span class="menu-text">Project Results</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analyses-and-models" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,6 +119,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -127,9 +139,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction---an-intersection-between-data-science-and-humanities" id="toc-introduction---an-intersection-between-data-science-and-humanities" class="nav-link active" data-scroll-target="#introduction---an-intersection-between-data-science-and-humanities">Introduction - An Intersection Between Data Science and Humanities</a></li>
   <li><a href="#the-project" id="toc-the-project" class="nav-link" data-scroll-target="#the-project">The Project</a></li>
-  <li><a href="#where-ive-been-so-far" id="toc-where-ive-been-so-far" class="nav-link" data-scroll-target="#where-ive-been-so-far">Where I’ve Been So Far:</a></li>
+  <li><a href="#everywhere-i-traveled" id="toc-everywhere-i-traveled" class="nav-link" data-scroll-target="#everywhere-i-traveled">Everywhere I Traveled:</a></li>
   </ul>
 </nav>
     </div>
@@ -168,13 +180,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p><sup><sub>based&nbsp;on&nbsp;an&nbsp;excerpt&nbsp;of&nbsp;5000&nbsp;eagle&nbsp;coins&nbsp;from&nbsp;the&nbsp;MANTIS&nbsp;database</sub></sup></p>
 </section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Throughout history, eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.</p>
-<p>Take for example two ancient eagles, and two modern eagles:</p>
-<p>The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Imperial coins it represented Roman virtues.</p>
-<p>And in the relatively modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico’s founding, while on American coins it represents liberty, and freedom.</p>
-<p>My name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson’s Dean Rusk international experience grant, I am spending six weeks in Germany investigating the influence of ancient Greek and Roman coinage on the modern coinage of Europe, and the world. Last semester I wrote a paper on the eagle as it appears and changes on coins in the Davidson coin collection, and so this summer I’m continuing my investigation by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries). While I travel, I’m building up my own small dataset of all the eagle coins I see, which will be posted and analyzed on this website when I’m done with it.</p>
+<section id="introduction---an-intersection-between-data-science-and-humanities" class="level2">
+<h2 class="anchored" data-anchor-id="introduction---an-intersection-between-data-science-and-humanities">Introduction - An Intersection Between Data Science and Humanities</h2>
+<p>Throughout history eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every people of nearly every location, time, and culture it appeared in. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is still a very common piece of iconography on the coins of myriad modern countries.</p>
+<p>Take for example two ancient eagles and two modern eagles:</p>
+<p>The eagle was an incredibly common symbol on both Ptolemaic Imperial and Roman Imperial coinage, but their meanings were starkly different. On early Ptolemaic coinage, the eagle represented a divine authority and connection to Alexander the Great, while on the Roman Imperial coins it served as a symbol of Roman virtues.</p>
+<p>Likewise in the (relatively) modern day, the eagle on Mexican pesos is representative of the historical myth of Mexico’s founding, while on American coins it represents liberty and freedom.</p>
+<p>My name is Will Reddien— I am a data and computer science student at Davidson College. This summer (2026), courtesy of Davidson’s Dean Rusk international experience grant, I am spending six weeks in Germany (and surrounding regions) investigating the unique intersection between humanities and data science that is numismatics. Particularly, I am engaging with the image of the eagle on these ancient coins, as well as studying how these coins are cataloged, curated, and studied in the modern day. Last semester I wrote a paper on how the eagle appears and changes on coins in the Davidson coin collection, and I’m continuing my investigation this summer by looking at museum collections, Munzkabinetts, and local coin shops around Germany (and some in neighboring countries) all the while collecting, interpreting, and analyzing data.</p>
+<p>From creating a model that can classify images of coins to a price predicting regression model, this project has grown far beyond its original scope and become what I would consider to an advanced data analysis project, and one that has led me to develop a variety of new skills in the field on top of deepening and enhancing my old ones.</p>
 <div>
 
 </div>
@@ -219,27 +232,29 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="the-project" class="level2">
 <h2 class="anchored" data-anchor-id="the-project">The Project</h2>
-<p>My original project intentions were low— I wanted to build a dataset of coins that I saw in museums and collections, and learn about the cataloging processes different organizations undergo for coinage. However, as I started working, I realized that my project had more potential than I originally thought. The first day that I was here, I came up with FOUR goals I wanted to complete that would develop my skills in Data Science, Programming, and Analysis. My current goals are:</p>
+<p>As this project grew in scope a number of new goals arose for me, on top of those I originally pursued. In order to chase those new ideas, though, I needed to commit a substantial amount of time to not only learning but applying skills as a data analyst.</p>
+<p>During my first few days in Germany, I built a roadmap with goals for the trip. I went on to complete all of these goals, despite the fact that I constantly changed ideas or added new ones to the list as the trip progressed. Here is that list:</p>
 <ol type="1">
 <li><p>Build a dataset from the coins I see that feature eagles</p></li>
+<li><p>Learn about the cataloging process of ancient coins and how it differs between different collections, as well as study how different collections and museums present their coins — then, write a piece discussing the benefits and negatives to different methods</p></li>
 <li><p>Train an image classification model to discern between coins with eagles and without eagles</p></li>
-<li><p>Develop a price prediction model for ancient coins via linear regression</p></li>
+<li><p>Develop a price prediction model for ancient coins via linear regression and historical auction data</p></li>
+<li><p>Create an interactive map that shows where eagle coins were minted at different points in time</p></li>
 <li><p>Launch a website to display everything I develop: My datasets and their analysis, maps of eagle coins throughout history, the models I’ve built, and what I learn about cataloging, sourcing, and presentation of coins through collections and museums.</p></li>
 </ol>
-<p>Are these goals perhaps a bit too lofty? Absolutely. Am I completing them all anyway? Hopefully!</p>
-<p>The launch of this website marks my fourth objective complete. In the background I’m still building a dataset of eagle coins I see, which will be presented on this website at the end of my trip along with other datasets I downloaded/built/scraped (legally) over the course of the project.</p>
+<p>The launch of this website marks my final objective complete. At this point, all of the other goals on the list are complete, and can be found/interacted with in different pages on the website. It’s important to note, though, that each of these overarching goals was secretly a number of smaller objectives, so even the seemingly simple ones required a number of different skills and steps to complete.</p>
+<p>Along with my analysis, the datasets I built/downloaded/scraped (legally) can be found throughout the website’s pages, free for you to scroll through if so desired.</p>
 </section>
-<section id="where-ive-been-so-far" class="level2">
-<h2 class="anchored" data-anchor-id="where-ive-been-so-far">Where I’ve Been So Far:</h2>
+<section id="everywhere-i-traveled" class="level2">
+<h2 class="anchored" data-anchor-id="everywhere-i-traveled">Everywhere I Traveled:</h2>
 <p>Freiburg - The Colombischloessle Archaeological Museum, Local shops</p>
-<p>Strasbourg - The Archaeological Museum in the Palais Rohan, Local shops</p>
+<p>Strasbourg - The Archaeological Museum, Local shops</p>
 <p>Basel - The Basel Historical Museum</p>
-<p>Lucerne - The Lucerne Historical Museum</p>
-<p>Karlsruhe - The Badisches Landesmuseum</p>
-<p>Frankfurt - The Historisches Museum Frankfurt</p>
-<p>Berlin - The Bode-Museum</p>
-<p>Dresden - The Dresden Munzkabinett</p>
-<p>Munich - The Bavarian State Coin Collection</p>
+<p>Lucerne - Museum Luzern</p>
+<p>Berlin - The Bode-Museum, The Neues Museum</p>
+<p>Dresden - The Dresden Muenzkabinett</p>
+<p>Munich - The Staatliche Muenzsammlung</p>
+<p>Salzburg - The Fortress Museum</p>
 
 
 </section>

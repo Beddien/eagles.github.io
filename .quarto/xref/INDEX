@@ -16,5 +16,20 @@
   },
   "auctiondata.qmd": {
     "auctiondata.html": "19ed895f"
+  },
+  "maps.qmd": {
+    "maps.html": "56f56800"
+  },
+  "catalogs.qmd": {
+    "catalogs.html": "1ed9eb2f"
+  },
+  "images/conclusions.qmd": {
+    "conclusions.html": "1d1c85c3"
+  },
+  "conclusions.qmd": {
+    "conclusions.html": "f9c86e03"
+  },
+  "mydata.qmd": {
+    "mydata.html": "9ff736d5"
   }
 }
