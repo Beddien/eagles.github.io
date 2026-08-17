@@ -2,6 +2,14 @@
 title: "The Hidden Coins of Shops and Local Museums"
 ---
 
+```{r}
+#| echo: false
+#| warning: false
+library(DT)
+library(plotly)
+mydata <- read.csv("ClassicalGermanEagles.csv")
+```
+
 ## Building a Holistic, Cross-Collection Datalog
 
 Data regarding ancient coins is lost almost constantly for a variety of reasons— people steal coins from archaeological digs and sell them in secrecy, meaning we lose data as to what hoard they might have been a part of, or where they were actually found. One of those reasons, though, is completely avoidable, simply being the fact that many of the coins that have been documented by individual collectors or that are featured in small museums or sold in coin shops do not have their data entries accessible online.
@@ -16,4 +24,32 @@ Once I was in a shop and had identified some coins of interest, I checked first 
 
 I performed a similar process when visiting museums, moving through their collections looking for coins with visible eagles. Unfortunately (as I note in my page on coin cataloging and display) it is effectively impossible to know if a coin has an eagle on its non-visible side without knowing every coin in the museum, and as such it is inevitable that some coins were missed using this approach. Regardless, I wrote down the usually more helpful information regarding the museums' coins, and took photos of their faces.
 
-Finally, after visiting a museum, shop, or collection and gathering the information needed, I would begin the process of identifying the coins myself by cross referencing their designs and information with those of various digital catalogs such as MANTIS and CRRO. After an identification process of a difficulty somewhere between instant identification and a 1 hour wild goose chase, I documented the vital information I found about each specific coin in an Excel master spreadsheet. Now, after repeating this process for each coin hotspot, I have built out a fully documented collection of coins which fords the boundaries between officially presented and somewhat underground coins— a collection which can be accessed on this very webpage.
+Finally, after visiting a museum, shop, or collection and gathering the information needed, I would begin the process of identifying the coins myself by cross referencing their designs and information with those of various digital catalogs such as MANTIS and CRRO. After an identification process of a difficulty somewhere between instant identification and a 1 hour wild goose chase, I documented the vital information I found about each specific coin in an Excel master spreadsheet based on whatever reference coin I found. Now, after repeating this process for each coin hotspot, I have built out a fully documented collection of coins which fords the boundaries between officially presented and somewhat underground coins— a collection which can be accessed on this very webpage.
+
+## The Matter of Eagles
+
+Tragically, while many of the shops I visited while abroad did feature interesting classical coins, many of which I photographed, almost none of them features eagles (despite eagles being an especially common feature on their stocks of coins beyond the Roman period). As a result, because my project focused nearly exclusively on classical eagalic coinage, I was not able to successfully identify any coins to add to my database. As mentioned on other pages of this website, shops were also few and far between, further decreasing the potential eagles I could fine.
+
+One shop I visited did list one eligible coin on their website— that shop in particular being the Berlin location of a chain of coin shops. The location that I visited, where I was directed to the website, unfortunately did not have the particular coin I noted in stock, and so I neglected to include it in my dataset.
+
+While the nature of this project's limited scope decreased the amount of potential coins, a future expedition with an expanded objective would certainly be successful (as evidenced by the myriad eagle coins I spotted from beyond my timeframe, as well as other ancient coins in general).
+
+## View the Dataset
+
+It is important to note that this dataset is essentially a conceptual example of what an expanded version of this project could set out to achieve. As such, while all of the coin identifications are accurate in regard to certain fixed attributes such as type designs and minting authorities, mutable features such as weight should not be taken as 100% accurate.
+
+All points in the dataframe are copied directly from the *MANTIS* database, and as such are occasionally not up to the standards of my typical documentation. While I would have liked to rewrite all the type descriptions to be standardized and generally more descriptive, I decided preserving the coin's attributes as they have been professionally documented would be the best approach for this project.
+
+```{r}
+#| echo: false
+#| warning: false
+datatable(mydata)
+```
+
+## Unidentifiable Coins
+
+A handful of coins that I photographed should theoretically be included in my dataset, but have unfortunately been snubbed due to how difficult identifying them has been. This came as a bit of a surprise to me and only afflicted three of the coins I photographed, but unfortunately I have as of yet been unable to find a proper identification for a few coins. But why?
+
+While it is true that most of the coins I photographed had proper IDs in their respective collections, these IDs are not always as helpful as they seem. One particularly difficult coin that I managed to identify was listed in its collection as being minted in 'Bruttium'. Bruttium is an ancient region in southern Italy, and as such this completely tracks— except, not all digitally documented coins list all of their attributed. The Bruttium coin was minted in a city within Bruttium, and as such its digital mint location did not match what I had seen in the museum. Thankfully, there was still enough information available in the museum to help me identify the coin. However, I had also photographed a second coin from Bruttium with much less supplementary information to search based on.
+
+A similar predicament has come to pass for two other coins I intended to include in this datalog, meaning that (though I wish it were not so) as of yet they are obfuscated.

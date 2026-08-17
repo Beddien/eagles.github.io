@@ -14,15 +14,22 @@ website:
         href: catalogs.qmd
       - text: "My Dataset"
         href: mydata.qmd
-      - text: "Project Results"
-        href: conclusions.qmd
       - text: "Data Analyses and Models"
         menu:
         
         - auctiondata.qmd
         - imageclassifier.qmd
+      - text: "Project Results"
+        href: conclusions.qmd
       - about.qmd
-
+    right:
+      - icon: github
+        href: https://github.com/Beddien/eagles.github.io
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://www.linkedin.com/in/william-reddien-6726473a9/
+        aria-label: LinkedIn
+        
 
 format:
   html:
