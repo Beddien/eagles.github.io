@@ -34,3 +34,5 @@ I would also love to expand the scope of certain parts of this project beyond ju
 As mentioned on my image classification model page, I would love to keep training it as well, potentially building my training dataset such that it can identify eagle coins of different eras, different materials, or different locations.
 
 Even beyond what I've just mentioned there is so much more to be added, and while this project has been limited in both timeframe and scope, a future iteration would be an incredibly exciting project to lead. With the infrastructure now laid out, the project could be expanded through more of Europe, including collections from cities much closer to the heart of Rome, with so much more valuable information being included. One day if this project continues to grow, it could change the way modern numismatics operates and expedite our understanding of the ancient world.
+
+![In the Staatliche Muenzsammlung Munich](images/other images/Finalcoin.webp)

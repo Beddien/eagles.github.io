@@ -2,6 +2,8 @@
 title: "About"
 ---
 
+![](images/other%20images/me.webp)
+
 ## About the Site, and Myself
 
 My name is William Reddien; I am a current undergraduate student at Davidson College in the class of 2029 studying Computer Science and Data Science, and I am very passionate about my work.

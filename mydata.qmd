@@ -16,6 +16,8 @@ Data regarding ancient coins is lost almost constantly for a variety of reasons�
 
 Not to say that online documentation of coins is a requirement for having a collection, but when so much data is left on the cutting room floor, one wonders if any potential use was lost. Especially with many collections being considered separately, it feels like the combination of the colletcions in some mass digital catalog could fill in the gaps in our knowledge about many less studied or less accessible coins. I sought to remedy these issue, at least a little bit, through this project, and I believe that at least as a proof of concept the project has been successful.
 
+![](images/other images/Screen.png)
+
 ## Development Processes
 
 As noted before, throughout this trip I visited a variety of local and large museums, along with both coin-focused shops and general antique stores in search of undocumented coins. Thankfully, while coin collecting is relatively popular in Germany there were a tangible, finite number of shops in each city for my to visit. Each time I visited a shop, I scanned through their catalog looking for ancient coins, and especially ancient coins with eagles on them— of course, being one complete comprehensive dataset would be the ultimate goal of an expanded version of this project, my focus during this trip was primarily eagalic coins if only because I think they are especially interesting and cool.
@@ -25,6 +27,17 @@ Once I was in a shop and had identified some coins of interest, I checked first 
 I performed a similar process when visiting museums, moving through their collections looking for coins with visible eagles. Unfortunately (as I note in my page on coin cataloging and display) it is effectively impossible to know if a coin has an eagle on its non-visible side without knowing every coin in the museum, and as such it is inevitable that some coins were missed using this approach. Regardless, I wrote down the usually more helpful information regarding the museums' coins, and took photos of their faces.
 
 Finally, after visiting a museum, shop, or collection and gathering the information needed, I would begin the process of identifying the coins myself by cross referencing their designs and information with those of various digital catalogs such as MANTIS and CRRO. After an identification process of a difficulty somewhere between instant identification and a 1 hour wild goose chase, I documented the vital information I found about each specific coin in an Excel master spreadsheet based on whatever reference coin I found. Now, after repeating this process for each coin hotspot, I have built out a fully documented collection of coins which fords the boundaries between officially presented and somewhat underground coins— a collection which can be accessed on this very webpage.
+
+::: {layout-ncol="2"}
+![Some examples of the coins I saw at various shops and street markets](images/other images/Shops2.webp)
+
+![](images/other images/Shops4.webp)
+
+![](images/other images/Shops3.webp)
+
+![](images/other images/Shops5.webp)
+
+:::
 
 ## The Matter of Eagles
 
@@ -50,6 +63,6 @@ datatable(mydata)
 
 A handful of coins that I photographed should theoretically be included in my dataset, but have unfortunately been snubbed due to how difficult identifying them has been. This came as a bit of a surprise to me and only afflicted three of the coins I photographed, but unfortunately I have as of yet been unable to find a proper identification for a few coins. But why?
 
-While it is true that most of the coins I photographed had proper IDs in their respective collections, these IDs are not always as helpful as they seem. One particularly difficult coin that I managed to identify was listed in its collection as being minted in 'Bruttium'. Bruttium is an ancient region in southern Italy, and as such this completely tracks— except, not all digitally documented coins list all of their attributed. The Bruttium coin was minted in a city within Bruttium, and as such its digital mint location did not match what I had seen in the museum. Thankfully, there was still enough information available in the museum to help me identify the coin. However, I had also photographed a second coin from Bruttium with much less supplementary information to search based on.
+While it is true that most of the coins I photographed had proper IDs in their respective collections, these IDs are not always as helpful as they seem. One particularly difficult coin that I managed to identify was listed in its collection as being minted in 'Bruttium'. Bruttium is an ancient region in southern Italy, and as such this completely tracks— except, not all digitally documented coins list all of their attributes. The 'Bruttium'-labeled coin was minted in a city within Bruttium, with its digital entry listing the minting location as that city rather than what I had seen in the museum. Thankfully, there was still enough information available in the museum to help me identify the coin. However, I had also photographed a second coin from Bruttium with much less supplementary information to search based on.
 
-A similar predicament has come to pass for two other coins I intended to include in this datalog, meaning that (though I wish it were not so) as of yet they are obfuscated.
+A similar predicament has come to pass for two other coins I intended to include in this datalog, meaning that (though I wish it were not so) as of yet they have been obfuscated.

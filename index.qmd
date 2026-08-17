@@ -1,5 +1,5 @@
 ---
-title: "Eagles, Data, And Money Across The World"
+title: "Data, Museums, And Eagles Across The World"
 ---
 
 ```{r setup, include=FALSE}
@@ -727,7 +727,7 @@ ggplot() + theme_void() +
 
 ## Introduction - An Intersection Between Data Science and Humanities
 
-Throughout history eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every person depending solely on where and when they came from. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is  a very common piece of iconography on the coins of numerous modern countries.
+Throughout history eagles have appeared all over coinage. The earliest Greeks and Romans minted the bird somewhat randomly, but over time it grew to have clear symbolic meaning. Or more accurately, it meant a number of very different things to almost every person depending solely on where and when they came from. But despite how varied its meaning was (and still is), it persevered through the Roman imperial period, and is a very common piece of iconography on the coins of numerous modern countries.
 
 Take for example two ancient eagles and two modern eagles:
 
