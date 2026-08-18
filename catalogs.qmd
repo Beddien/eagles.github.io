@@ -2,128 +2,127 @@
 title: "On Professional Cataloging and Coin Displays"
 ---
 
-In displaying coins for public consumption there are many different possible approaches an organization can take. Some of these approaches, particularly in physical museum exhibits, are entirely under the control of some curator or collector. It also happens that the possibilities of presentation both physically and digitally can be limited by a collection's cataloging process; limited information constrains the possibilities of display.
+In displaying coins for public consumption there are many different possible approaches an organization can take. Some of these approaches, particularly in physical museum exhibits, are entirely under the control of some curator or collector, while the responsibility associated with others can be attributed to catalog organizers or researchers. It also happens that the possibilities of presentation both physically and digitally can be limited by a collection's cataloging process, with limited information in a catalog constraining a collection's options for display.
 
 Through visiting a number of museum exhibitions as well as searching through and engaging with a variety of digital collections, I have experienced a huge spread of different approaches to coin presentation, and as such have come to appreciate certain features just as I shudder when I see others. Following my German experience, I have concluded that not only are there right and wrong ways to display coinage, many museums do not know how to present coinage effectively— to the extent that both aficionados and general consumers lose out on valuable information.
 
 ## Museum Exhibits - Physical Presentation Methods
 
-One thing that really surprised me while visiting these museums was how wildly different their coin displaying strategies were, even among the higher calliber establishments. I saw everything ranging from well grouped, methodically organized and informational displays to a museum that did not have any physical coins on despite their website claiming that they did (much to my disappointment). Beyond museum displays, the presentation of coins in local shops was completely different.
+One thing that really surprised me while visiting museums was how wildly different their coin displaying strategies were, even among the higher calliber establishments. I saw everything ranging from well grouped, methodically organized and informational displays to a museum that did not have any physical coins despite their website claiming that they did (much to my disappointment). Beyond museum displays, the presentation of coins in local shops was, less surprisingly, a completely different experience.
 
-While this range was certainly present throughout all the exhibits, the organizations focused specifically on coins such as the muenzkabinetts vastly outranked the average museum in terms of effective organization. Shockingly, though, what I consider the best display I encountered over the course of my travels, even outranking the coin-focused organizations, was a local museum's exhibition.
+While this range was certainly present throughout all the exhibits, the organizations focused specifically on coins such as the Muenzkabinetts vastly outranked the average museum in terms of effective organization. Shockingly, though, what I consider the best display I encountered over the course of my travels— even outranking the coin-focused organizations— was a local museum's exhibition.
 
-The worst coin display I visited was by far the Fortress Museum in Salzburg, which noted on their website the presence of Roman coins, but actually had zero coins! The only coin related section of the museum that I was able to find was a stand with photos of some coins connected to the museum, but even those were not Roman. In terms of my ranked organizational structure the Fortress museum is in the lowest level, that being 'tier five'.
-
-::: {layout-ncol="2"}
-![Salzburg's coin display. Note that these are only images of coins](images/other images/Salzburgcoins1.webp)
-
-![](images/other images/Salzburgcoins2.webp)
-
-:::
-
-In tier four, standing slightly above the Fortress Museum's non-existent display in my ranking are the Colombischloessle in Freiburg, the Neues Museum in Berlin, and the Strasbourg archaeological museum— all museums which did feature some coins, although in a manner with which I was starkly disappointed. There seems to be a common strategy in coin presentation of 'put all the coins in a pile behind glass such that visitors can see that there are coins, but can get no useful information out of them.'
+The worst coin display I visited was by far the Fortress Museum in Salzburg, which noted on their website the presence of Roman coins, but actually had zero coins! The only coin related section of the museum that I was able to find was a stand with photos of some coins connected to the museum, but even those were not Roman. In terms of the sort of ranked organizational structure I have organized the museums by, the Fortress museum is in the lowest level, that being 'tier five'.
 
 ::: {layout-ncol="2"}
-![Two examples of display strategies at the Colombischloessle](images/other images/Colombicoins2.webp)
+![Salzburg's coin display. Note that these are only images of coins, and no actual coins are present](images/other%20images/Salzburgcoins1.webp)
 
-![](images/other images/Colombicoins1.webp)
+![](images/other%20images/Salzburgcoins2.webp)
+:::
+
+In tier four, standing just above the Fortress Museum's non-existent display in my ranking are the Colombischloessle in Freiburg, the Neues Museum in Berlin, and the Strasbourg Archaeological Museum— all museums which did feature some coins, although in a manner with which I was starkly disappointed. There seems to be a common strategy in coin presentation of 'put all the coins in a pile behind glass such that visitors can see that there are coins, but can get no useful information out of them.'
+
+::: {layout-ncol="2"}
+![Two examples of display strategies at the Colombischloessle](images/other%20images/Colombicoins2.webp)
+
+![](images/other%20images/Colombicoins1.webp)
 :::
 
 ::: {layout-ncol="2"}
+![One of the few displays I spotted in Strasbourg](images/other%20images/Strasbourgcoins1.webp)
 
-
-![One of the few displays I spotted in Strasbourg](images/other images/Strasbourgcoins1.webp)
-
-![An exemplary Neues Museum display](images/other images/Neuescoins1.webp)
+![An exemplary Neues Museum display](images/other%20images/Neuescoins1.webp)
 :::
 
-Unsurprisingly, I am not a fan of this tactic, since it means I must spend extreme amounts of time trying to glean information from a coin which could otherwise be spent learning about that coin or developing other projects. Strasbourg's museum was the biggest offendor of this non-display tactic, but it was present to some smaller extent in several of the other museums I was able to visit. The Colombischloessle featured that strategy in a few areas, but did have some more effective display tactics employed throughout itself.
+Unsurprisingly, I am not a fan of this tactic, since it means I must spend substantial amounts of time trying to glean identifying characteristics from a coin, time which could otherwise be spent learning about that same coin or developing other projects— in fact, this very issue is what inspired me to develop a small, but accurate image classification model, which I discuss in the Data Analyses and Models section of this website.
 
-The third tier of coin exhibit was one I only encountered in the Museum Luzern, which had a surprisingly well organized albeit compact section which effectively displayed much of the museum's collection. The Museum Luzern's coins were organized into a gridlike pattern in a series of drawers, each of which featured a barcode— upon scanning the barcode, a screen above the coins would present information about a given coin. In another area of the museum they features similarly arranged coins, although unfortunately this second section did not feature a supplementary digital catalog.
+Strasbourg's museum was the biggest offender of this non-display tactic, but it was present to some smaller extent in several of the other museums I was able to visit. The Colombischloessle employed the tactic in a few areas, but did have some more effective display tactics employed throughout itself.
+
+The third tier of coin exhibit was one I only encountered in the Museum Luzern, which had a surprisingly well organized albeit compact coin display which effectively presented much of the museum's collection. The Museum Luzern's coins were organized into a gridlike pattern in a series of drawers, each of which featured a barcode— upon scanning the barcode, a screen above the coins would present information about a given coin. Similarly arranged coins were present elsewhere in the museum, although unfortunately this second section did not feature a supplementary digital catalog.
 
 ::: {layout-ncol="2"}
-![Both sections of coins at the museum Luzern, featuring me](images/other images/Luzcoins1.webp)
+![Both sections of coins at the museum Luzern, featuring me](images/other%20images/Luzcoins1.webp)
 
-![](images/other images/Luzcoins2.webp)
-
+![](images/other%20images/Luzcoins2.webp)
 :::
 
-While you were limited to viewing only one coin's information page at a given time, tightly packed nature of the Museum Luzern's extensive collection of relics and objects of interest meant their coins were presented about as effectively as was reasonably possible. Additionally, I am a big fan of digital information tabs for coins in physical museums (as I discuss later on this page), and as such I appreciated their system. However, the presence of coins in their museum as a whole had some flaws— firstly, while they evaded the 'non-display' method of coin presentation I previously mentioned, there were other smaller coin displays scattered around the museum which suffered from being hard to study due to lying horizontal behind a vertical glass barrier. Additionally, as far as I observed, these other coins were not substantially documented within the museum itself.
+While museum-goers were limited to viewing only one coin's information page at a time, the tightly packed nature of the Museum Luzern's extensive collection of relics and objects of interest meant their coins would inherently need to be compactly presented, and as such the coins were presented about as effectively as possible. Additionally, I am a big fan of digital information tabs for coins in physical museums (as I discuss later on this page), and as such I appreciated their system. However, the presence of coins in their museum as a whole suffered from a handful of flaws— firstly, while they evaded the 'non-display' method of coin presentation I previously mentioned, there were other smaller coin displays scattered around the museum which suffered from being hard to study due to lying horizontal behind a vertical glass barrier. Additionally, as far as I observed, these other coins were not substantially documented within the museum itself, leaning more towards that non-display mention they nearly avoided (even with the coins themselves being generally more easily studied).
 
 ::: {layout-ncol="2"}
-![Examples of the Bode-Museum's displays and informational keys](images/other images/Bodecoins1.webp)
+![Examples of the Bode-Museum's displays and informational keys](images/other%20images/Bodecoins1.webp)
 
-![](images/other images/Bodecoins2.webp)
-
+![](images/other%20images/Bodecoins2.webp)
 :::
 
-Next we move on to 'Tier two', the first level of museums with a specific focus on coinage— the Bode-Museum, Staatliche Muenzsammlung, and Dresden Muenzkabinett all fell into this level. These museums all featured robust collections of coins that were well organized, all displayed such that it was possible to see the coins, and with information cards regarding every coin with key defining facts (for example minter, or date) such that one who wishes to learn more about a coin is able to find it online and do so.
+Next we move on to 'Tier two', the first level of museums with a specific focus on coinage— the Bode-Museum, Staatliche Muenzsammlung Muenchen, and Dresden Muenzkabinett all fell into this rank. These museums all featured robust collections of coins that were well organized, all displayed such that it was possible to see the coins, and with information cards regarding every coin with key defining facts (for example minter, or date) such that one who wishes to learn more about a coin is able to find it online and efficiently do so.
 
 ::: {layout-ncol="2"}
-![A display example from the Staatliche Muenzsammlung in Munich](images/other images/Staatcoins3.webp)
+![A display example from the Staatliche Muenzsammlung in Munich](images/other%20images/Staatcoins3.webp)
 
-![](images/other images/Staatcoins2.webp)
-
+![](images/other%20images/Staatcoins2.webp)
 :::
 
-The approaches taken by each of these three collections was slightly different, and I do have to say that even within this 'level' the Dresden Muenzkabinett was by far the best. Dresden featured not only an early coin pressing machine, but displays including paper money, strange materials coins were made from, and (my personal favorite) coins with nicknames. Each of these museums had something different to offer, from magnifying lenses that allow you to see more precise details on coins to the previously mentioned variety of unusual but interesting displays.
+The approach taken by each of these three collections was slightly different, and I do have to say that even within this one 'level', the Dresden Muenzkabinett was by far the frontrunner. Dresden featured not only an early coin pressing machine, but displays including paper money, strange materials coins were made from, and (my personal favorite) coins with nicknames. Unfortunately, because of how Dresden presented the information it had about its coins, as well as the fact that they gave no solution to the issue of only one side of a coin being visible when on display, it fell into the second tier of collection for me. Each of these museums had something different to offer, from magnifying lenses that allow you to see more precise details on coins to the previously mentioned variety of unusual but interesting displays.
 
 ::: {layout-ncol="2"}
-![The Dresden Muenzkabinett](images/other images/Drescoins1.webp)
+![The Dresden Muenzkabinett](images/other%20images/Drescoins1.webp)
 
-![](images/other images/Drescoins3.webp)
+![](images/other%20images/Drescoins3.webp)
 
-![](images/other images/Drescoins2.webp)
+![](images/other%20images/Drescoins2.webp)
 
-![](images/other images/Drescoins4.webp)
-
+![](images/other%20images/Drescoins4.webp)
 :::
 
-Finally in the top tier there stands only one museum, a site which I spontaneously decided to visit but which is by far the best collection I saw in terms of display, even outranking the coin-specific museums— the Basel Historical Museum. The Basel Historical Museum had not one, but two distinct areas of coin presentation. While the lesser of the two, the temporary section focused on 'treasure hoards' suffered from many of the flaws of the collections I ranked as tier four, the other section was the greatest coin display I was able to visit.
+Finally in the top tier there stands only one museum, a site which I spontaneously decided to visit but which was by far the best collection I was able to explore, even outranking the coin-specific museums— the Basel Historical Museum. The Basel Historical Museum had not one, but two distinct areas of coin presentation. While the lesser of the two, there was an installation focused on 'treasure hoards' that unfortunately suffered from many of the same flaws as the tier four collections. But! On the flipside, Basel's main display was undoubtedly the greatest coin display I have ever seen.
 
 ::: {layout-ncol="2"}
-![The 'Treasure Hoards' exhibition](images/other images/Bascoins1.webp)
-
+![The 'Treasure Hoards' exhibition](images/other%20images/Bascoins1.webp)
 :::
 
-Basel's primary exhibit regarding coins was the perfection of a coin display, with rows of coins organized not only chronologically (which was generally the case for all other high tier displays), but by key features. For example, while there were areas dedicated to different time periods and rulers, there was also a section specifically regarding eagles on coins— obviously this was a key point of interest on my end, but in general having smaller sections of display like this enhanced the collection massively.
+Basel's primary exhibit regarding coins was the perfection of a coin display, with rows of coins organized not only chronologically (which was generally the case for all other high tier displays), but by key features. For example, while there were areas dedicated to different time periods and rulers, there was also a section specifically regarding eagles on coins— obviously this was a key point of interest on my end, but in general these smaller sections of display massively enhanced the quality of the collection.
 
-Perhaps even more importantly, every section of display had a digital counterpart which not only provided tangible and well-researched information about each coin, but allowed visitors to see high quality photos of both the obverses AND reverses of the coins on display. While I haven't mentioned it previously, there is a distinct challenge in displaying coinage, that being having both the obverses and reverses of coins visible simultaneously. Unfortunately, only one side of the coin can be visible at a time leaving much of the interest and information regarding these coins inaccessible to collection visitors.
+Perhaps even more importantly, every section of display had a corresponding digital micro-catalog, which not only provided tangible and well-researched information about each coin, but allowed visitors to see high quality photos of both the obverses AND reverses of the coins on display. While I've only briefly mentioned it previously there is a very distinct and seemingly insurmountable challenge in displaying coinage, that being having both the obverses and reverses of coins visible simultaneously. Unfortunately, only one side of the coin can be visible at a time, meaning much of a coin's intrigue and valuable information are rendered inaccessible to collection visitors. This issue was of particular note during my expedition, since many coins that could have potentially featured eagles were displayed on their obverse sides.
 
 ::: {layout-ncol="3"}
-![The primary Basel coin display](images/other images/Bascoins2.webp)
+![The primary Basel coin display](images/other%20images/Bascoins2.webp)
 
-![](images/other images/Bascoins3.webp)
+![](images/other%20images/Bascoins3.webp)
 
-![](images/other images/Bascoins4.webp)
-
+![](images/other%20images/Bascoins4.webp)
 :::
 
 Museums have taken a number of approaches to remedy this— some simply ignore it, others display coins facing either direction, and others have opted to display two of the same coin next to one another with each coin facing a different direction. There is even a strategy where coins are suspended vertically, such that visitors can walk around an exhibit and view a coin from both sides. The best and most effective solution, in my opinion, is the approach taken by Basel, which is to allow users to easily and quickly find the digital display, which not only allows them to see both sides simultaneously but allows a more detailed analysis of the side previously visible.
 
 ## Cataloging - Digital Information and Consistency
 
-In terms of the crossroads between online coin catalogs and museum displays, despite what I originally presumed, the overlap seems to be generally minimal. While very large collections feature online catalogs (an example being the Bode-Museum), and the Munzkabinetts of course must, most of the smaller museums I visited did not feature their coins online as far as I could tell.
+In terms of the crossroads between online coin catalogs and museum displays— despite what I originally presumed— overlap seems to be generally minimal. While very large collections feature online catalogs (an example being the Bode-Museum), most of the smaller museums I visited did not commonly feature their coins online.
 
-For the most part this lack of online documentation is a minute detail, since most of the coins featured in smaller museums belong to series' that can be found online other sources, but it is somewhat concerning to me that potential coin data is being left unaccounted for simply due to inconvenience.
+For the most part this lack of online documentation is a minute detail, since most of the coins featured in smaller museums belong to series' that can be found online other sources, but it is concerning to me that potential coin data is being left unaccounted for due to what seems to be largely inconvenience, as well as a dearth where one large collaborative database should be.
 
-What I am trying to achieve through my smaller dataset of coins from across coin shops and smaller museum is some online presence of this otherwise undocumented data, such that hopefully it can be used in the future if needed by classicists, data analysts, or anybody else interested in these coins.
+While to an incredibly small scale in an incredibly focused topic, I am trying to achieve some online presence of this otherwise undocumented data, such that hopefully it can be used in the future if needed by classicists, data analysts, or anybody else interested in these coins.
 
 ## How I Corrected an Incorrect ID
 
 As noted above, the Museum Luzern's exhibit in particular had a handful of poorly identified or described coins. For the most part this wasn't an issue, since there was enough information on display that more interested museum-goers could use to track down and learn more about any particular coin. However, one coin in particular caught my attention as I scanned through the collection.
 
-The coin in question had been identified as an eagle minted under Ptolemy II, which happens to be one of the specific series' of coinage I have extensively researched. I had been visiting the museum with a friend, and upon reading the description of the coin I immediately noted to him how distrustful I was of the documentation. I googled some reference images, since this alleged Ptolemy II coin looked dissimilar to those I had seen before, but upon finding some that looked a bit like it I dismissed my concern.
+The coin in question had been identified as an eagle minted under Ptolemy II, which happens to be one of the specific series' of coinage I have extensively researched. I had been visiting the museum with a friend, and upon reading the description of the coin I immediately noted to him my vague sense of distrust in that particular page of documentation. I pulled up some reference images, since this alleged Ptolemy II coin looked dissimilar to those I had seen before, but upon finding some that looked a bit like it I initially dismissed my concern.
+
+![A typical Ptolemy II eagle](images/other%20images/Ptolcoin2.jpg)
 
 Fast forward to about a week later in Berlin, when I was working on identifying the coins I had taken photos of in the Museum Luzern to add to my evergrowing dataset. As I went through the eagle coins one by one, I had no trouble finding matches in one database or another for each of their types— that is, except for one. While the "Ptolemy II" coin I had flagged as suspicious was similar in design to some legitimate Ptolemy II coins, it didn't exactly match any of the coins I was able to find minted under its alleged ruler. And the closer I looked, the more I realized that the coin had a number of features that distinguished it completely from the coins of Ptolemy II.
 
 The most important distinction was the text written on the coin— not only did the writing itself not match any text on Ptolemaic coins, but the completely vertical structure of the words was a giveaway. Even with the most vertical inscriptions of Ptolemy II's coins, the text always curved to follow the edge of the coin at the top of the design. Below is one of those coins.
 
+![](images/other%20images/Ptolcoin1.jpg)
+
 Also note that the head on the obverse, while seemingly wearing a somewhat unorthodox crown, is actually a radiate head, something never seen under Ptolemy II. The clues that I found helped me narrow my search, and after a more difficult identification process than I had anticipated, I was finally able to correctly identify the coin as a bronze of Antiochus VIII. Here is the MANTIS documentation for the coin:
 
 <https://numismatics.org/collection/1944.100.76816>
 
-Following my victory, I wrote a message (in German) to the Museum Luzern's contact email explaining my concern with the identification, as well as providing evidence for my updated ID and what that ID was. I have emailed a number of website-listed emails in the past and never gotten a response, so I assumed that sending my email would be the last update to this story. But lo and behold, about a month later I received this reply:
+![The misidentified eagle in question](images/other%20images/Ptolcoin3.jpg){width="350"}
+
+Following my successful identification, I wrote a message (in German) to the Museum Luzern's contact email explaining my concern with the identification, as well as providing evidence for my updated ID and what that ID was. I have emailed a number of website-listed emails in the past to radio silence, so I assumed that my email would be the last update to this story. But lo and behold, about a month later I received this reply:
 
 ###### Guten Tag Herr Reddien
 
@@ -137,16 +136,16 @@ Which loosely says 'Hello. Thank you for the info, we'll look into this and upda
 
 ## Learning to Display Coins Correctly
 
-In truth, there is no perfect way to display coins— at least not that I have seen. And aside from the museums I visited on this journey, I have also seen online, heard about, or visited museums using other strategies to display coins. I had the amazing opportunity previously to visit the Museum of the Romans in southern France, which featured a giant angled display of coins with a movable magnifying glass visitors could use to look more closely at individual artifacts. I've heard about another museum, I believe also in France, which displays coins vertically in glass cases extending from kitchen island-style exhibits, such that observers can move around the display to see both sides of the coins. I've even been to museums with exhibits simply titled 'Roman Coins', where the noted coins are sitting conglomerated in an impress but useless pile.
+In truth, there is no perfect way to display coins— at least not that I have seen. And aside from the museums I visited on this journey I have either seen online, heard about, or visited museums using other strategies to display coins. I had the amazing opportunity previously to visit the Museum of the Romans in southern France, which featured a giant angled display of coins with a movable magnifying glass visitors could use to look more closely at individual artifacts. I've heard about another museum, I believe also in France, which displays coins vertically in glass cases extending from kitchen island-style exhibits, such that observers can move around the display to see both sides of the coins. I've even been to museums with exhibits simply titled 'Roman Coins', where the noted coins are sitting conglomerated in a visually impressive but informationally useless pile.
 
-There is a middle ground of display— coins shouldn't be piled indistinguishably in heaps, but over-organization can also be confusing to mentally absorb. My perfect display (in a semi-cliche manner) combines features from the museum I've seen, choosing the best features from each.
+There is a middle ground of display— coins shouldn't be piled indistinguishably in heaps, but over-organization can be draining to mentally absorb. My perfect display (in a semi-cliche manner) combines features from several museums I've seen, and is modeled based on the most effective features from each.
 
-Firstly, my coins would be organized into based on chronology and geography— I would have individual sections of display for major time periods, and by their minting regions. For example, early Greek coins would generally be together, but coins from the empires the rose following the death of Alexander the Great would be sub-grouped by their individual empire/region— the Ptolemies and Egpyt/North Africa, or the Seleukids in Asia Minor. This style of organization would make the collection more digestible to observers partially through more of the context surrounding each coin being brought to the forefront, but also partially due to the side effect of visually similar coins being more closely associated with one another. Especially if coins very wildly within one subgroup, for example the early Greeks, a point of interest will be created for the observer, who might question why so much variation existed in such a small geographic region. This method of presentation will also organize the coins in a more easily navigable way for coin-enthusiasts, who could search for coins in the display almost like shelves in a library.
+Firstly, my coins would be organized based on chronology and geography— I would have individual sections of display for major time periods, with subsections present for specific distinguishing features, such as minting region. For example, early Greek coins would generally be together, but coins from the empires the rose following the death of Alexander the Great would be sub-grouped by their individual empire/region— the Ptolemies and Egpyt/North Africa would comprise one subsection, while the Seleukids in Asia Minor would another. This style of organization would make the collection more digestible to observers partially through more of the context surrounding each coin being brought to the forefront, but also partially due to the side effect of visually similar coins being more closely associated with one another. And on the flipside, if coins vary especially wildly within one time period, for example the early Greeks, a point of interest will be created for the observer, who might question why so much variation existed in such a small geographic region. This method of presentation will also organize the coins in a more easily navigable way for coin-enthusiasts, who could search for coins in the display almost like shelves in a library organized by not only genre, but author, country of origin, or date of creation.
 
-The only exception to this would be some smaller, more focused sections of the display. For example, shocking nobody I would love to have a smaller display focused on coins featuring eagles across the world. Taking heavy inspiration from the Dresden Muenzkabinett, I would love to have sections like their 'coins of interesting materials', or 'coins with nicknames'. These would likely be either in a separate room from the main collection (as in Dresden), but could be interspersed into the display rooms based on space availability.
+The only exception to this would be some smaller, more focused sections of the display. For example, shocking nobody, I would love to have a smaller display focused on coins featuring eagles across the world. Taking heavy inspiration from the Dresden Muenzkabinett, I would love to have sections like their 'coins of interesting materials', or 'coins with nicknames'. These would likely be either in a separate room from the main collection (as in Dresden), but could be interspersed into the primary display rooms based on space availability (as with the cabinets in Munich)
 
-Lastly, the most important element: physically, how would I perfectly display coins? In short I would learn from Basel's collection and display my coins in cases with only one side up, but with digital interfaces attached to each case (or group of cases) which could be used to find more information about individual coins as well as high quality images of their faces. The unfortunate nature of coins is that only one side can be seen at a time, and I do have some complaints with a number of the display methods that attempt to combat this. Firstly, having two copies of a coin side by side with each facing one way is interesting and on paper effective, but as an observer I feel that it devalues each individual artifact. Part of what makes these ancient coins so interesting is how they have survived, meaning in what state. The cracks on two coins will never be the same, nor the grime on the edges, or even the exact shape. While I would love to see two sides of the same coin simultaneously, I would rather those two sides be of the exact same coin, and not two separate, albeit very similar ones.
+Lastly, the most important element: physically, how would I perfectly display coins? In short, I would learn from Basel's strategies and display my coins in cases with only one side up, but with digital interfaces attached to each case (or group of cases) which could be used to find more information about individual coins as well as high quality images of their faces. The unfortunate nature of coins is that only one side can be seen at a time, and I do have some complaints with a number of the display methods that attempt to combat this. Firstly, having two copies of a coin side by side with each facing one way is interesting and on paper effective, but as an observer I feel that it devalues each individual artifact. Part of what makes these ancient coins so interesting is how they have survived, meaning in what state. The cracks on two coins will never be the same, nor the grime on the edges, or even the exact shape. While I would love to see two sides of the same coin simultaneously, I would rather those two sides be of the exact same coin, and not two separate, albeit very similar ones.
 
 I likewise wouldn't even consider the vertical walk-around-to-see-both-sides display style, largely since the walking bit is inconvenient. As an avid runner I have no gripe with moving, but interrupting my study of a coin to move to its other side is an immersion breaker that I believe siphons much of the fun and intrigue out of the coin learning experience, and makes observation of more than a couple coins feel like a chore. I do think that this method has potential to be great for smaller displays, or even if the coins could be somehow made to rotate such that viewers wouldn't need to move, but as of now I would not include it in my museum.
 
-Another reason I would choose to use digital interfaces is because, for the most part, they do not wear down. The Bavarian State Coin Collection in Munich featured a large, printed paper index of cards for each display case of coins— which didn't feature very much information about the coins, although that was another gripe— and while these indexes were fine and clearly legible, they did not seem new. A digital screen would of course have to be maintained just as the paper indexes did, but it comes with a large variety of other benefits, including the fact that it is easily updateable, and for the most part always feels new. Unless of course its software was written in the 20th century, which felt like it was the case for the Museum Luzern.
+Another reason I would choose to use digital interfaces is because, for the most part, they do not wear down. The Staatliche Muenzsammlung in Munich featured a large, printed paper index of cards for each display case of coins— which didn't feature very much information about the coins, although that was another gripe— and while these indexes were fine and clearly legible, they did not seem new. A digital screen would of course have to be maintained just as paper indexes would, but would come with a large variety of other benefits, including the fact that it is easily updatable, and for the most part always feels new. Unless of course its software was written in the 20th century, which felt like it was the case for the Museum Luzern (despite how much charm that added to the display).
