@@ -16,7 +16,7 @@ To start, I invested a significant amount of my spare time into reading webpages
 
 One of the most important concepts I discovered was transfer learning, which allowed me to use a basic pre-existing classifier, and build my identifier from a foundation of already complete training. Transfer learning is the industry standard, with it cutting hours of training from the development of a model. I decided that, given my timeframe and other project goals, transfer learning was the best approach.
 
-Since many tutorials for creating image classification models already exist, I was able to learn the basics of what I needed very quickly. I loaded in a simple test dataset from the internet, and began experimenting with a pre-existing classifier.
+Since many tutorials for creating image classification models already exist, I was able to learn the basics of what I needed very quickly (thanks to [Pytorch](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html#convnet-as-fixed-feature-extractor) for the brilliant documentation). I loaded in a simple test dataset from the internet, and began experimenting with a pre-existing classifier.
 
 Once my test case model had learned from the previous model and was completely trained with the simple dataset, I began the training process with my coin data.
 

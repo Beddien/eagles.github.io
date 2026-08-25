@@ -36,6 +36,6 @@ format:
     theme: sandstone
     css: backgroundsettings.css
     toc: true
-
+    google-analytics: "G-Q45399ZGRV"
 editor: visual
 
